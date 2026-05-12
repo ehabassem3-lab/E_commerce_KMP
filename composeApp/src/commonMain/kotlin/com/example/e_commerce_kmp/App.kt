@@ -14,13 +14,15 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.rememberNavController
+import com.example.e_commerce_kmp.features.auth.ui.screens.login.Login
 import com.example.e_commerce_kmp.features.network.httpClient
 import com.example.e_commerce_kmp.features.network.request.LoginRequest
 import com.example.e_commerce_kmp.features.network.response.AuthResponse
+import com.example.e_commerce_kmp.features.routes.AppRoutes
 import org.jetbrains.compose.resources.painterResource
-
-import e_commerce_kmp.composeapp.generated.resources.Res
-import e_commerce_kmp.composeapp.generated.resources.compose_multiplatform
 import io.ktor.client.call.body
 import io.ktor.client.request.post
 import io.ktor.client.request.setBody
@@ -40,31 +42,14 @@ fun App() {
 
 
      }
-
-
-
-    MaterialTheme {
-        var showContent by remember { mutableStateOf(false) }
-        Column(
-            modifier = Modifier
-                .background(MaterialTheme.colorScheme.primaryContainer)
-                .safeContentPadding()
-                .fillMaxSize(),
-            horizontalAlignment = Alignment.CenterHorizontally,
-        ) {
-            Button(onClick = { showContent = !showContent }) {
-                Text("Click me!")
-            }
-            AnimatedVisibility(showContent) {
-                val greeting = remember { Greeting().greet() }
-                Column(
-                    modifier = Modifier.fillMaxWidth(),
-                    horizontalAlignment = Alignment.CenterHorizontally,
-                ) {
-                    Image(painterResource(Res.drawable.compose_multiplatform), null)
-                    Text("Compose: $greeting")
-                }
-            }
+       val navController = rememberNavController()
+    NavHost(
+        navController= navController ,
+        startDestination = AppRoutes.Login
+    ){
+        composable<AppRoutes.Login> {
+            Login(navController)
         }
+
     }
 }
