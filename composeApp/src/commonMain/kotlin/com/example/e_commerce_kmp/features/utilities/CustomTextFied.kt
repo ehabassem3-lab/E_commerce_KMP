@@ -59,9 +59,10 @@ fun CustomTextField(
             value = text,
             onValueChange = onValueChange,
             placeholder = {
-                Text(text = hintText)
+                Text(text = hintText , style = AppTypography.labelLarge)
             },
             shape = RoundedCornerShape(15.dp),
+
             colors = TextFieldDefaults.colors(
                 disabledContainerColor = Color.Transparent,
                 unfocusedContainerColor = Color.Transparent,
@@ -70,7 +71,7 @@ fun CustomTextField(
                 unfocusedIndicatorColor = Color.Transparent,
                 disabledIndicatorColor = Color.Transparent
             ),
-            textStyle = AppTypography.labelLarge ,
+            textStyle = AppTypography.titleMedium.copy(color = Color.Black) ,
 
         )
 

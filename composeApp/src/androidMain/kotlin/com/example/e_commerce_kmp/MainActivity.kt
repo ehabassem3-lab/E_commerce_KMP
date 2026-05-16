@@ -6,7 +6,9 @@ import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.tooling.preview.Preview
+import com.example.di.commonModule
 import com.example.e_commerce_kmp.features.auth.di.authModule
+import org.koin.android.ext.koin.androidContext
 import org.koin.core.context.startKoin
 
 class MainActivity : ComponentActivity() {
@@ -14,7 +16,9 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         super.onCreate(savedInstanceState)
         startKoin {
-            modules(authModule)
+            androidContext(this@MainActivity)
+
+            modules(authModule, commonModule)
         }
         setContent {
             App()

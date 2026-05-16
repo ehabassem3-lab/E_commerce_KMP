@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -22,7 +23,8 @@ import com.example.e_commerce_kmp.features.thenes.Primary
 @Composable
 fun CustomButton(
     text: String,
-    onClick: () -> Unit
+    onClick: () -> Unit ,
+    isLoading : Boolean
 ) {
     Button(
         onClick = onClick,
@@ -36,9 +38,15 @@ fun CustomButton(
             contentColor = Primary
         )
     ) {
-        Text(
-            text = text,
-            style = AppTypography.titleMedium.copy(color = Primary)
-        )
+        if (!isLoading){
+            Text(
+                text = text,
+                style = AppTypography.titleMedium.copy(color = Primary)
+            )
+        }
+        else{
+            CircularProgressIndicator()
+        }
     }
+
 }

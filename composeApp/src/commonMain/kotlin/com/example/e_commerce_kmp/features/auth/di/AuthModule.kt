@@ -20,7 +20,7 @@ val authModule = module{
         AuthRemoteDateSourceImpl(get())
     }
     single<AuthRepository> {
-        AuthRepositoryImpl(get ())
+        AuthRepositoryImpl(get () , get () )
 
     }
 factory {

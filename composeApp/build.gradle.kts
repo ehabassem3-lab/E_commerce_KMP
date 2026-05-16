@@ -29,7 +29,10 @@ kotlin {
     sourceSets {
         androidMain.dependencies {
             val koin = "4.1.1"
+            implementation("androidx.datastore:datastore-core-okio:1.1.0")
 
+            implementation("androidx.datastore:datastore:1.2.1")
+            implementation("androidx.datastore:datastore-preferences:1.2.1")
             implementation(compose.material3)
             implementation("org.jetbrains.androidx.navigation:navigation-compose:2.8.0-alpha10")
             implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.6.3")
@@ -41,6 +44,7 @@ kotlin {
 // Option 2: Use multiplatform packages directly
             implementation("io.insert-koin:koin-compose:${koin}")
             implementation("io.insert-koin:koin-compose-viewmodel:${koin}")
+            implementation("androidx.datastore:datastore-core-okio:1.1.0")
 // Optional: Navigation integration
             implementation("io.insert-koin:koin-androidx-compose-navigation:${koin}")
         }
@@ -56,6 +60,11 @@ kotlin {
             implementation("org.jetbrains.androidx.navigation:navigation-compose:2.8.0-alpha10")
 // Optional: Navigation integration
             implementation(libs.koin.compose.viewmodel.navigation)
+            implementation("androidx.datastore:datastore-core-okio:1.1.0")
+            // DataStore library
+            implementation("androidx.datastore:datastore:1.2.1")
+            // The Preferences DataStore library
+            implementation("androidx.datastore:datastore-preferences:1.2.1")
             implementation(libs.compose.runtime)
             implementation(libs.compose.foundation)
             implementation(libs.compose.material3)

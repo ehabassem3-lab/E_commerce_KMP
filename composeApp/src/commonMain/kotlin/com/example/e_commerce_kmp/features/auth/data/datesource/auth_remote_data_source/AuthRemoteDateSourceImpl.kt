@@ -20,6 +20,9 @@ class AuthRemoteDateSourceImpl(httpClient: HttpClient) : AuthRemoteDateSource {
             }
             val authResponse = response.body<AuthResponse>()
             return if (response.status.isSuccess()){
+                println(response.status.toString())
+                println(email)
+                println(password)
                 Result.success(authResponse)
             } else{
                 Result.failure(Exception(

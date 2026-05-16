@@ -4,5 +4,11 @@ import kotlinx.serialization.Serializable
 
 sealed class AppRoutes {
     @Serializable
-  data  object Login: AppRoutes()
+    object Login
+    @Serializable
+     object  Register
+    @Serializable
+    object  MainScreen
+    @Serializable
+    object Splash
 }
