@@ -17,6 +17,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.example.e_commerce_kmp.features.auth.ui.screens.forgetpassword.ForgetPassWordView
 import com.example.e_commerce_kmp.features.auth.ui.screens.login.Login
 import com.example.e_commerce_kmp.features.auth.ui.screens.register.RegisterView
 import com.example.e_commerce_kmp.features.commerce.ui.MainScreen
@@ -34,17 +35,7 @@ import kotlin.io.println
 @Composable
 @Preview
 fun App() {
-//     LaunchedEffect(Unit){
-//
-//         val response   =  httpClient.post("v1/auth/signin"){
-//           setBody(LoginRequest("ehab123@gmail.com", "Ehab@123"))
-//
-//         }
-//         println("Ehab Login Request ++${response.body<AuthResponse>()}")
-//
-//
-//
-//     }
+
        val navController = rememberNavController()
     NavHost(
         navController= navController ,
@@ -61,6 +52,9 @@ fun App() {
         }
         composable <AppRoutes.Splash>{
             SplashView(navController)
+        }
+        composable <AppRoutes.ForgetPassWord>{
+            ForgetPassWordView(navController)
         }
 
 

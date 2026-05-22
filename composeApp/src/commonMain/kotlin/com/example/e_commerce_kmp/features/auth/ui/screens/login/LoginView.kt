@@ -159,7 +159,7 @@ fun Login(
                     "Forgot password" ,
                     style = AppTypography.bodyMedium ,
                     modifier = Modifier.padding(start = 230.dp).clickable{
-                        TODO("Add The Forget Password Implemntaion")
+                       navController.navigate(AppRoutes.ForgetPassWord)
                     }
 
                 )
