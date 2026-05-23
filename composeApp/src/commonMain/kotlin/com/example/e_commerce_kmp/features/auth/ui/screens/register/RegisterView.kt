@@ -68,7 +68,10 @@ fun RegisterView(navController: NavController   , modifier: Modifier = Modifier)
 
 
                      } ,
-                     hidePassword = null
+                     hidePassword = null ,
+                     width = 400.dp,
+                     isSearchBar = false,
+                      isPassword = false
                  )
                  Spacer(modifier.size(30.dp))
                  Text("Mobile Number", style = AppTypography.titleMedium)
@@ -80,7 +83,9 @@ fun RegisterView(navController: NavController   , modifier: Modifier = Modifier)
                      onValueChange = {
 
                      },
-                     isPassword = true,
+                     isPassword = false,
+                     width = 400.dp,
+                     isSearchBar = false,
                      hidePassword = painterResource(Res.drawable.ic_closed_eye)
                  )
                  Spacer(modifier.size(30.dp))
@@ -94,7 +99,10 @@ fun RegisterView(navController: NavController   , modifier: Modifier = Modifier)
                      onValueChange = {
 
                      },
-                     isPassword = true,
+                     width = 400.dp,
+                     isSearchBar = false,
+                     isPassword = false,
+
                      hidePassword = painterResource(Res.drawable.ic_closed_eye)
                  )
                  Spacer(modifier.size(30.dp))
@@ -108,6 +116,8 @@ fun RegisterView(navController: NavController   , modifier: Modifier = Modifier)
                      onValueChange = {
 
                      },
+                     width = 400.dp,
+                     isSearchBar = false,
                      isPassword = true,
                      hidePassword = painterResource(Res.drawable.ic_closed_eye)
                  )

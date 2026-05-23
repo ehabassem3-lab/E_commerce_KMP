@@ -135,6 +135,8 @@ fun Login(
                         )
 
                     } ,
+                    width = 400.dp,
+                    isSearchBar = false,
                     hidePassword = null
                 )
                 Spacer(modifier.size(30.dp))
@@ -152,6 +154,8 @@ fun Login(
 
                     },
                     isPassword = true,
+                    width = 400.dp,
+                    isSearchBar = false,
                     hidePassword = painterResource(Res.drawable.ic_closed_eye)
                 )
                 Spacer(Modifier.size(15.dp))
@@ -180,7 +184,7 @@ fun Login(
                     "Don’t have an account? Create Account" ,
                     textAlign = TextAlign.Center,
                     modifier = Modifier.align(alignment = Alignment.CenterHorizontally).clickable{
-
+                            navController.navigate(AppRoutes.Register)
                     } ,
                     style = AppTypography.bodyMedium
                 )

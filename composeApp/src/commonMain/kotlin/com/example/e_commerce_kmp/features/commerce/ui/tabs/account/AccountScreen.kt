@@ -11,7 +11,7 @@ import androidx.navigation.NavController
 @Composable
 fun AccountScreen(navController: NavController){
     Column (
-        modifier = Modifier.fillMaxSize().background(Color.Red)
+        modifier = Modifier.fillMaxSize().background(Color.White)
     ){  }
 
 }

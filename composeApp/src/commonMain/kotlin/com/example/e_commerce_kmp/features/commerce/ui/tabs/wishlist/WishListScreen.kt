@@ -11,7 +11,7 @@ import androidx.navigation.NavController
 @Composable
 fun WishListScreen(navController: NavController){
     Column (
-        modifier = Modifier.fillMaxSize().background(Color.Black)
+        modifier = Modifier.fillMaxSize().background(Color.White)
     ){  }
 
 }

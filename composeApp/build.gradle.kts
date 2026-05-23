@@ -29,6 +29,8 @@ kotlin {
     sourceSets {
         androidMain.dependencies {
             val koin = "4.1.1"
+            implementation("io.coil-kt:coil-compose:2.6.0")
+
             implementation("androidx.datastore:datastore-core-okio:1.1.0")
 
             implementation("androidx.datastore:datastore:1.2.1")
@@ -52,6 +54,10 @@ kotlin {
         val    ktor = "3.4.1"
             val koin = "4.1.1"
             val nav_version = "2.9.8"
+            implementation("io.coil-kt:coil-compose:2.6.0")
+
+            implementation("androidx.core:core-splashscreen:1.0.1")
+
             implementation(compose.components.resources)
             implementation("org.jetbrains.androidx.navigation:navigation-compose:2.8.0-alpha10")
             implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.6.3")

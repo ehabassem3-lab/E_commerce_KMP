@@ -13,4 +13,6 @@ sealed class AppRoutes {
     object Splash
     @Serializable
     object ForgetPassWord
+    @Serializable
+    object  ResetPassWord
 }

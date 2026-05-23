@@ -91,6 +91,8 @@ fun ForgetPassWordView(
                 onValueChange = {
 
                 } ,
+                width = 420.dp,
+                isSearchBar = false,
                 hidePassword = null
             )
             Spacer(modifier = Modifier.size(40.dp))
