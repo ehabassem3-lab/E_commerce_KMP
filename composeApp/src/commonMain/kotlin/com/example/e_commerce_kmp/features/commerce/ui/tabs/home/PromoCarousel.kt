@@ -146,7 +146,6 @@ fun PromoCard(
             .clip(RoundedCornerShape(16.dp))
             .background(slide.backgroundColor),
     ) {
-        // Product image — right side
         Image(
             painter = painterResource(Res.drawable.ic_curisol),
 

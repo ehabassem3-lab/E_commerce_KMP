@@ -10,6 +10,7 @@ import androidx.navigation.NavController
 
 @Composable
 fun CategoriesScreen(navController: NavController){
+
     Column (
         modifier = Modifier.fillMaxSize().background(Color.White)
     ){  }

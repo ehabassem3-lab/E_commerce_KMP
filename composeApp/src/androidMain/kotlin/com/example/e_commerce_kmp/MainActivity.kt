@@ -8,6 +8,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.tooling.preview.Preview
 import com.example.di.commonModule
 import com.example.e_commerce_kmp.features.auth.di.authModule
+import com.example.e_commerce_kmp.features.commerce.di.commerceModule
 import com.example.e_commerce_kmp.features.thenes.MyAppTheme
 import org.koin.android.ext.koin.androidContext
 import org.koin.core.context.startKoin
@@ -19,7 +20,7 @@ class MainActivity : ComponentActivity() {
         startKoin {
             androidContext(this@MainActivity)
 
-            modules(authModule, commonModule)
+            modules(authModule, commonModule , commerceModule)
         }
         setContent {
             MyAppTheme{

@@ -1,4 +1,4 @@
-package com.example.e_commerce_kmp.features.network.response
+package com.example.e_commerce_kmp.features.network.response.auth
 
 import kotlinx.serialization.Serializable
 
