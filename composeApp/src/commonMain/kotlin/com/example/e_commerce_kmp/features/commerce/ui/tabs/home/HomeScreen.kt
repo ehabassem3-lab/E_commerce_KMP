@@ -46,9 +46,16 @@ import io.ktor.client.call.body
 import io.ktor.client.request.get
 import io.ktor.http.isSuccess
 import org.jetbrains.compose.resources.painterResource
+import org.koin.compose.viewmodel.koinViewModel
 
 @Composable
 fun HomeScreen(navController: NavController){
+    val viewModel = koinViewModel<HomeTabViewModel>()
+    val state = viewModel.state
+    LaunchedEffect(Unit){
+        viewModel.doAction(HomeTabEvents.LoadData)
+
+    }
     Column (
         modifier = Modifier
             .fillMaxSize()
@@ -57,7 +64,8 @@ fun HomeScreen(navController: NavController){
     ){
         Box(
             modifier = Modifier.size(60.dp)
-        ){ Image(
+        ){
+            Image(
                 modifier = Modifier.fillMaxSize(),
                 painter = painterResource(Res.drawable.ic_logo_route_small) ,
                 contentDescription = ""
@@ -66,59 +74,12 @@ fun HomeScreen(navController: NavController){
         Column (
             modifier =
                 Modifier
-                .fillMaxSize()
+                .fillMaxSize() ,
+            horizontalAlignment = Alignment.CenterHorizontally
         ){
-            Row (
-
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .height(70.dp) ,
-                verticalAlignment = Alignment.CenterVertically ,
-                horizontalArrangement = Arrangement.Center
-
-            ){
-                Box(
-                    modifier = Modifier
-                        .fillMaxWidth(.9f)
-                        .height(70.dp)
-                        .clip(RoundedCornerShape(25.dp))
-                        .background(Color.White)
-                        .border(
-                            width = 3.dp,
-                            color = Primary,
-                            shape = RoundedCornerShape(25.dp)
-                        )
-
-
-
-                ) {
-                    CustomTextField(
-                        hintText = "what do you search for?",
-                        text = "",
-                        onValueChange = {
-
-                        },
-                        onSearchClick = {
-
-                        },
-                        width = 320.dp,
-                        hidePassword =  null,
-                        isSearchBar = true,
-                        isPassword = false
-                    ) }
-                     Icon(
-                    contentDescription = "",
-                    painter = painterResource(Res.drawable.ic_cart) ,
-                    modifier = Modifier
-                        .padding(start = 5.dp)
-                        .size(30.dp).clickable{
-
-                        } ,
-                    tint = Primary
-                )
-            }
+            HomeTabSearchBar(navController)
             PromoCarousel()
-
+            CategoriesSection(navController)
 
 
 

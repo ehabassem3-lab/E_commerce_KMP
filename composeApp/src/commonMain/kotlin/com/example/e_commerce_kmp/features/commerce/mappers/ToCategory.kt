@@ -7,8 +7,7 @@ fun RemoteCategory.toCategory()  = Category(
     id = id?:"" ,
     image = image ?:"" ,
     name = name ?:"" ,
-    category = category
-
+    category = category ?: ""
 )
 
 

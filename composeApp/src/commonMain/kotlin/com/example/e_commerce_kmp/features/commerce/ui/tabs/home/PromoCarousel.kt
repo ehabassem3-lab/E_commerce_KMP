@@ -148,7 +148,6 @@ fun PromoCard(
     ) {
         Image(
             painter = painterResource(Res.drawable.ic_curisol),
-
             contentDescription = null,
             contentScale = ContentScale.Crop,
             modifier = Modifier
