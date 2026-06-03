@@ -46,9 +46,20 @@ class HomeTabViewModel  (
             println(categoriesResult)
             println("Speraaaaaaaaaaaaaaaaaaaaaate")
             println(productsResult)
+            val categoriesState = categoriesResult.fold(
+                onSuccess = { Resources.Success(it) },
+                onFailure = { Resources.Error(it) }
+            )
+            val productsState = productsResult.fold(
+                onSuccess = { Resources.Success(it) },
+                onFailure = { Resources.Error(it) }
+            )
 
 
-
+            state.value = state.value.copy(
+                categoriesApi =categoriesState,
+                productsApi =productsState
+            )
         }
 
 

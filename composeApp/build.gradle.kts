@@ -56,6 +56,8 @@ kotlin {
         val    ktor = "3.4.1"
             val koin = "4.1.1"
             val nav_version = "2.9.8"
+            implementation("io.coil-kt.coil3:coil-compose:3.4.0")
+            implementation("io.coil-kt.coil3:coil-network-okhttp:3.4.0")
             implementation("io.coil-kt:coil-compose:2.6.0")
 
             implementation("androidx.core:core-splashscreen:1.0.1")

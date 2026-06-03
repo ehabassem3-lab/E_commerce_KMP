@@ -14,11 +14,13 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Icon
 import androidx.compose.material3.PrimaryTabRow
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -51,18 +53,19 @@ import org.koin.compose.viewmodel.koinViewModel
 @Composable
 fun HomeScreen(navController: NavController){
     val viewModel = koinViewModel<HomeTabViewModel>()
-    val state = viewModel.state
+    val state = viewModel.state.collectAsState()
     LaunchedEffect(Unit){
         viewModel.doAction(HomeTabEvents.LoadData)
 
     }
-    Column (
+    LazyColumn (
         modifier = Modifier
             .fillMaxSize()
             .background(Color.White)
             .padding(start = 10.dp , end = 10.dp , top = 60.dp)
     ){
-        Box(
+        item {
+            Box(
             modifier = Modifier.size(60.dp)
         ){
             Image(
@@ -70,20 +73,31 @@ fun HomeScreen(navController: NavController){
                 painter = painterResource(Res.drawable.ic_logo_route_small) ,
                 contentDescription = ""
 
-            ) }
-        Column (
-            modifier =
-                Modifier
-                .fillMaxSize() ,
-            horizontalAlignment = Alignment.CenterHorizontally
-        ){
-            HomeTabSearchBar(navController)
-            PromoCarousel()
-            CategoriesSection(navController)
-
-
-
+            )
+            }
         }
+        item {
+
+            Column (
+                modifier =
+                    Modifier
+                        .fillMaxSize() ,
+                horizontalAlignment = Alignment.CenterHorizontally
+            ){
+                HomeTabSearchBar(navController)
+                PromoCarousel()
+                CategoriesSection(state.value.categoriesApi)
+                ProductsSection(state.value.productsApi)
+
+
+
+
+
+            }
+        }
+
+
+
 
 
 
