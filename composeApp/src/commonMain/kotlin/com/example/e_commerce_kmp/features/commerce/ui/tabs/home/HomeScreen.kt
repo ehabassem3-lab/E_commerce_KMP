@@ -88,13 +88,10 @@ fun HomeScreen(navController: NavController){
                 PromoCarousel()
                 CategoriesSection(state.value.categoriesApi)
                 ProductsSection(state.value.productsApi)
-
-
-
-
-
             }
+
         }
+
 
 
 
