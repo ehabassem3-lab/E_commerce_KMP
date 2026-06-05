@@ -32,9 +32,11 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.example.e_commerce_kmp.Res
+import com.example.e_commerce_kmp.features.commerce.ui.tabs.categories.CategoriesScreen
 import com.example.e_commerce_kmp.features.network.httpClient
 import com.example.e_commerce_kmp.features.network.response.home.categories_response.CategoriesResponse
 import com.example.e_commerce_kmp.features.network.response.home.categories_response.RemoteCategory
+import com.example.e_commerce_kmp.features.routes.AppRoutes
 import com.example.e_commerce_kmp.features.thenes.Primary
 import com.example.e_commerce_kmp.features.utilities.CustomButton
 import com.example.e_commerce_kmp.features.utilities.CustomTextField
@@ -51,7 +53,9 @@ import org.jetbrains.compose.resources.painterResource
 import org.koin.compose.viewmodel.koinViewModel
 
 @Composable
-fun HomeScreen(navController: NavController){
+fun HomeScreen(
+    navController: NavController,
+){
     val viewModel = koinViewModel<HomeTabViewModel>()
     val state = viewModel.state.collectAsState()
     LaunchedEffect(Unit){
@@ -62,7 +66,7 @@ fun HomeScreen(navController: NavController){
         modifier = Modifier
             .fillMaxSize()
             .background(Color.White)
-            .padding(start = 10.dp , end = 10.dp , top = 60.dp)
+            .padding(start = 10.dp , end = 10.dp , top = 60.dp, bottom = 100.dp)
     ){
         item {
             Box(
@@ -86,7 +90,9 @@ fun HomeScreen(navController: NavController){
             ){
                 HomeTabSearchBar(navController)
                 PromoCarousel()
-                CategoriesSection(state.value.categoriesApi)
+                CategoriesSection(state.value.categoriesApi){
+            viewModel.navigator(1)
+                }
                 ProductsSection(state.value.productsApi)
             }
 

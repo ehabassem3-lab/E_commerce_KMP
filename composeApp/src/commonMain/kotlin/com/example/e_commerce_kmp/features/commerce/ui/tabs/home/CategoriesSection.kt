@@ -1,10 +1,17 @@
 package com.example.e_commerce_kmp.features.commerce.ui.tabs.home
 
+import androidx.compose.animation.core.FastOutSlowInEasing
+import androidx.compose.animation.core.RepeatMode
+import androidx.compose.animation.core.animateFloat
+import androidx.compose.animation.core.infiniteRepeatable
+import androidx.compose.animation.core.rememberInfiniteTransition
+import androidx.compose.animation.core.tween
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
@@ -19,12 +26,16 @@ import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyHorizontalGrid
 import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.font.FontWeight
@@ -38,13 +49,16 @@ import com.example.e_commerce_kmp.features.commerce.domain.entities.Category
 import com.example.e_commerce_kmp.features.thenes.AppTypography
 import com.example.e_commerce_kmp.features.thenes.Primary
 import com.example.e_commerce_kmp.features.utilities.ErrorView
+import com.example.e_commerce_kmp.features.utilities.ShimmerCategoryItem
 import com.example.e_commerce_kmp.ic_logo_route_small
 import org.jetbrains.compose.resources.painterResource
 
 @Composable
 fun CategoriesSection (
-    categoryApiState : Resources<List<Category>>
+    categoryApiState : Resources<List<Category>> ,
+    onViewAllClick : () -> Unit
 ){
+
     Column (
         modifier = Modifier
             .fillMaxWidth(.95f)
@@ -76,16 +90,18 @@ fun CategoriesSection (
                     fontWeight = FontWeight.SemiBold
                 ) ,
                 modifier = Modifier.clickable {
+                    onViewAllClick()
                 }
             )
         }
         Spacer(modifier = Modifier.height(10.dp))
         when(categoryApiState){
             is Resources.Error -> ErrorView {
-                // Retry action
-            }
 
-            Resources.Loading -> CircularProgressIndicator(color = Primary)
+            }
+            Resources.Loading -> {
+                ShimmerCategoryItem(isHorizonal =  true)
+            }
             is Resources.Success<List<Category>> -> {
                 val categories = categoryApiState.data ?: emptyList()
                 LazyHorizontalGrid(

@@ -30,6 +30,6 @@ val commerceModule = module {
         GetSubCategoryUseCase(get())
     }
     viewModel {
-        HomeTabViewModel(get() , get())
+        HomeTabViewModel(get() , get() ,get())
     }
 }

@@ -22,6 +22,7 @@ import androidx.compose.ui.unit.dp
 import com.example.e_commerce_kmp.features.auth.ui.utilies.Resources
 import com.example.e_commerce_kmp.features.commerce.domain.entities.Product
 import com.example.e_commerce_kmp.features.utilities.ErrorView
+import com.example.e_commerce_kmp.features.utilities.ShimmerCategoryItem
 
 @Composable
 fun ProductsSection(
@@ -30,10 +31,7 @@ fun ProductsSection(
     Column(
         modifier = Modifier
             .fillMaxWidth(.95f)
-            .height(1500.dp)
-        ,
-
-
+            .height(3000.dp),
 
         verticalArrangement = Arrangement.Top,
         horizontalAlignment = Alignment.CenterHorizontally
@@ -42,10 +40,12 @@ fun ProductsSection(
 
         when (productApiState) {
             is Resources.Error -> ErrorView { }
-            Resources.Loading -> CircularProgressIndicator()
+            Resources.Loading ->  ShimmerCategoryItem(isHorizonal =  false)
+
             is Resources.Success<List<Product>> -> {
                 val products = productApiState.data ?: emptyList()
                 LazyVerticalGrid(
+                    userScrollEnabled = true,
                     columns = GridCells.Fixed(2),
                     modifier = Modifier.fillMaxSize(),
                     horizontalArrangement = Arrangement.spacedBy(16.dp),
@@ -59,9 +59,15 @@ fun ProductsSection(
                             priceBefore = product.price ?: 0.0,
                             priceAfter = product.priceAfterDiscount ?: 0.0,
                             rating = product.ratingsAverage ?: 0.0,
-                            onProductClick = {},
-                            onAddClick = {},
-                            onWishClick = {}
+                            onProductClick = {
+
+                            },
+                            onAddClick = {
+
+                            },
+                            onWishClick = {
+
+                            }
                         )
                     }
                 }

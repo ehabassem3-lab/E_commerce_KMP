@@ -1,5 +1,6 @@
 package com.example.e_commerce_kmp.features.commerce.domain.entities
 
+import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 @Serializable

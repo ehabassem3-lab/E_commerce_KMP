@@ -28,6 +28,9 @@ kotlin {
     
     sourceSets {
         androidMain.dependencies {
+            implementation("io.coil-kt.coil3:coil-network-okhttp")
+            implementation("io.coil-kt.coil3:coil-compose:3.4.0")
+            implementation("io.coil-kt.coil3:coil-network-okhttp:3.4.0")
             val koin = "4.1.1"
             implementation("androidx.core:core-splashscreen:1.0.1")
 
@@ -57,9 +60,9 @@ kotlin {
             val koin = "4.1.1"
             val nav_version = "2.9.8"
             implementation("io.coil-kt.coil3:coil-compose:3.4.0")
-            implementation("io.coil-kt.coil3:coil-network-okhttp:3.4.0")
-            implementation("io.coil-kt:coil-compose:2.6.0")
-
+            implementation("io.coil-kt.coil3:coil")
+            implementation("io.coil-kt.coil3:coil-compose")
+            implementation(libs.compose.shimmer)
             implementation("androidx.core:core-splashscreen:1.0.1")
 
             implementation(compose.components.resources)

@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -16,6 +17,7 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
@@ -24,11 +26,19 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
+import androidx.navigation.NavDestination.Companion.hasRoute
+import androidx.navigation.NavGraph.Companion.findStartDestination
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.currentBackStackEntryAsState
+import androidx.navigation.compose.rememberNavController
 import com.example.e_commerce_kmp.Res
 import com.example.e_commerce_kmp.features.commerce.ui.tabs.account.AccountScreen
 import com.example.e_commerce_kmp.features.commerce.ui.tabs.categories.CategoriesScreen
 import com.example.e_commerce_kmp.features.commerce.ui.tabs.home.HomeScreen
+import com.example.e_commerce_kmp.features.commerce.ui.tabs.home.HomeTabViewModel
 import com.example.e_commerce_kmp.features.commerce.ui.tabs.wishlist.WishListScreen
+import com.example.e_commerce_kmp.features.routes.AppRoutes
 import com.example.e_commerce_kmp.features.thenes.Primary
 import com.example.e_commerce_kmp.ic_categories
 import com.example.e_commerce_kmp.ic_heart
@@ -36,10 +46,8 @@ import com.example.e_commerce_kmp.ic_home
 import com.example.e_commerce_kmp.ic_profile
 import org.jetbrains.compose.resources.DrawableResource
 import org.jetbrains.compose.resources.painterResource
+import org.koin.compose.viewmodel.koinViewModel
 
-data class tabItem(
-    val icon : DrawableResource ,
-)
 @Composable
 fun MainScreen(
     navController: NavController
@@ -60,7 +68,9 @@ fun MainScreen(
         disabledIconColor = Color.White,
         disabledTextColor = Color.White
     )
-    var selectedIndex by remember { mutableIntStateOf(0) }
+   // var selectedIndex by remember { mutableIntStateOf(0) }
+    val viewModel = koinViewModel<HomeTabViewModel>()
+    val selectedIndex = viewModel.selectedIndex
     Scaffold(
         bottomBar = {
             NavigationBar (
@@ -73,7 +83,7 @@ fun MainScreen(
 
             ){
                 for (item in navigationItems){
-                    val isSelected = selectedIndex == item.index
+                    val isSelected = selectedIndex.value == item.index
                     NavigationBarItem(
                         colors = navBarItemColors,
                         selected = isSelected ,
@@ -83,7 +93,7 @@ fun MainScreen(
                                     .width(60.dp)
                                     .height(40.dp)
                                     .background(
-                                        color = if (isSelected) Color.White  else Color.Transparent,
+                                        color = if (isSelected) Color.White else Color.Transparent,
                                         shape = RoundedCornerShape(26.dp)
                                     )
                                    ,
@@ -93,23 +103,19 @@ fun MainScreen(
                                 Icon(
                                     painter = painterResource(item.icon),
                                     modifier = Modifier
-                                        .size(if (isSelected)26.dp else 22.dp ) ,
+                                        .size(if (isSelected) 26.dp else 22.dp ) ,
                                      contentDescription = ""
                                 )
                             }
-
-
-                               } ,
+                        } ,
                         onClick = {
-                       selectedIndex = item.index
+                       selectedIndex.value = item.index
                     })
                 }
-
             }
-
         }
     ) {
-        when(selectedIndex){
+        when(selectedIndex.value){
             0 -> HomeScreen(navController)
             1 -> CategoriesScreen(navController)
             2 -> WishListScreen(navController)
