@@ -5,11 +5,13 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import androidx.navigation.toRoute
 import com.example.e_commerce_kmp.features.auth.ui.screens.forgetpassword.ForgetPassWordView
 import com.example.e_commerce_kmp.features.auth.ui.screens.login.Login
 import com.example.e_commerce_kmp.features.auth.ui.screens.register.RegisterView
 import com.example.e_commerce_kmp.features.commerce.ui.MainScreen
 import com.example.e_commerce_kmp.features.commerce.ui.SplashView
+import com.example.e_commerce_kmp.features.commerce.ui.tabs.categories.ProductScreen
 import com.example.e_commerce_kmp.features.routes.AppRoutes
 
 @Composable
@@ -35,6 +37,10 @@ fun App() {
         }
         composable <AppRoutes.ForgetPassWord>{
             ForgetPassWordView(navController)
+        }
+        composable <AppRoutes.ProductsScreen>{ backStackEntry ->
+          val data =   backStackEntry.toRoute<AppRoutes.ProductsScreen>()
+            ProductScreen(navController ,data.categoryId , data.subCategoryId)
         }
 
 

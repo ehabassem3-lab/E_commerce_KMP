@@ -51,16 +51,12 @@ import org.jetbrains.compose.resources.painterResource
 
 @Composable
 fun ProductItem(
-    productImage : String ,
-    productTitle : String ,
-    priceBefore : Double  ,
-    priceAfter : Double ,
-    rating : Double ,
+    product: Product,
     onProductClick : () -> Unit  ,
     onAddClick : () -> Unit,
     onWishClick : () -> Unit ,
 ){
-  var   WichCliked  by remember { mutableStateOf(false) }
+  var   WishCliked  by remember { mutableStateOf(false) }
 
 
     Column(
@@ -86,7 +82,7 @@ fun ProductItem(
                 AsyncImage(
                     modifier = Modifier.fillMaxSize().clip(RoundedCornerShape(20.dp)),
                     contentScale = ContentScale.FillBounds ,
-                    model = productImage ,
+                    model = product.imageCover ,
                     contentDescription = "" ,
                     error = painterResource(Res.drawable.ic_logo_route_small )
                 )
@@ -98,7 +94,7 @@ fun ProductItem(
                         .clip(CircleShape)
                         .background(Color.White)
                         .clickable{
-                            WichCliked = !WichCliked
+                            WishCliked = !WishCliked
                             onWishClick()
 
                         } ,
@@ -106,7 +102,7 @@ fun ProductItem(
                 ){
                     Icon(
                         painter =
-                           if (WichCliked) painterResource(Res.drawable.ic_full_heart)
+                           if (WishCliked) painterResource(Res.drawable.ic_full_heart)
                            else  painterResource(Res.drawable.ic_heart)  ,
                         contentDescription = "" ,
                         tint =  Primary,
@@ -124,7 +120,7 @@ fun ProductItem(
         ){
 
             Text(
-                text =  productTitle ,
+                text =  product.title ?:"" ,
                 style = AppTypography.bodyMedium.copy(color = Primary, fontSize = 16.sp) ,
                 modifier = Modifier
                     .height(30.dp)
@@ -138,7 +134,7 @@ fun ProductItem(
                 modifier = Modifier.height(22.dp).fillMaxWidth(.95f)
             ){
                 Text(
-                    text =  "EGP ${priceAfter}" ,
+                    text =  "EGP ${product.priceAfterDiscount}" ,
                     style = AppTypography.bodyMedium.copy(color = Primary, fontSize = 14.sp)  ,
                 )
                 Spacer(modifier = Modifier.size(22.dp))
@@ -153,7 +149,7 @@ fun ProductItem(
                     )
 
                     Text(
-                        text =  " ${priceBefore}  EGP" ,
+                        text =  " ${product.price}  EGP" ,
                         style = AppTypography.bodyMedium.copy(color = Primary, fontSize = 14.sp)  ,
                         modifier = Modifier.fillMaxSize()
 
@@ -167,7 +163,7 @@ fun ProductItem(
                 verticalAlignment = Alignment.CenterVertically ,
                 horizontalArrangement = Arrangement.Center
             ){
-                Text(text = "Review (${rating}) ⭐"   ,
+                Text(text = "Review (${product.ratingsAverage}) ⭐"   ,
                     style = AppTypography.bodyMedium.copy(color = Primary, fontSize = 12.sp)  ,)
                 Spacer(modifier = Modifier.size(30.dp))
                 Box(

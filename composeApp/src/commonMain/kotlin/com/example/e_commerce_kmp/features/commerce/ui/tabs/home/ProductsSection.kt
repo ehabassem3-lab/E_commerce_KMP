@@ -41,7 +41,6 @@ fun ProductsSection(
         when (productApiState) {
             is Resources.Error -> ErrorView { }
             Resources.Loading ->  ShimmerCategoryItem(isHorizonal =  false)
-
             is Resources.Success<List<Product>> -> {
                 val products = productApiState.data ?: emptyList()
                 LazyVerticalGrid(
@@ -54,11 +53,7 @@ fun ProductsSection(
                 ) {
                     items(products) { product ->
                         ProductItem(
-                            productImage = product.imageCover ?: "",
-                            productTitle = product.title ?: "",
-                            priceBefore = product.price ?: 0.0,
-                            priceAfter = product.priceAfterDiscount ?: 0.0,
-                            rating = product.ratingsAverage ?: 0.0,
+                         product =  product,
                             onProductClick = {
 
                             },

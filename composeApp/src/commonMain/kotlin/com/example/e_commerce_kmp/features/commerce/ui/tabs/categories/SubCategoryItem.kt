@@ -2,6 +2,7 @@ package com.example.e_commerce_kmp.features.commerce.ui.tabs.categories
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -23,7 +24,8 @@ import com.example.e_commerce_kmp.features.thenes.Primary
 
 @Composable
 fun SubCategoryItem(
-    category: Category
+    category: Category ,
+    onCategoryClick : ( Category) -> Unit
 ){
     Column(
         verticalArrangement = Arrangement.Center,
@@ -34,6 +36,9 @@ fun SubCategoryItem(
             .clip(RoundedCornerShape(20.dp))
             .background(Primary.copy(alpha = .1f))
             .border(width = 3.dp , color = Primary.copy(alpha = .5f) , shape = RoundedCornerShape(20.dp))
+            .clickable{
+                onCategoryClick(category)
+            }
     ) {
         Text(
             text = category.name?.firstOrNull()?.uppercaseChar()?.toString() ?: "?",
