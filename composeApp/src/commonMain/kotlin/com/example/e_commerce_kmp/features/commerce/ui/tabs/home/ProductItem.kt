@@ -121,7 +121,7 @@ fun ProductItem(
 
             Text(
                 text =  product.title ?:"" ,
-                style = AppTypography.bodyMedium.copy(color = Primary, fontSize = 16.sp) ,
+                style = AppTypography.bodyMedium.copy(color = Primary, fontSize = 20.sp) ,
                 modifier = Modifier
                     .height(30.dp)
                     .fillMaxWidth()
@@ -129,13 +129,15 @@ fun ProductItem(
                         onProductClick()
                     }
             )
-            Spacer(modifier = Modifier.size(8.dp))
+            Spacer(modifier = Modifier.size(4.dp))
             Row (
-                modifier = Modifier.height(22.dp).fillMaxWidth(.95f)
+                modifier = Modifier.height(28.dp).fillMaxWidth(.95f) ,
+                verticalAlignment = Alignment.CenterVertically ,
+                horizontalArrangement = Arrangement.Center
             ){
                 Text(
                     text =  "EGP ${product.priceAfterDiscount}" ,
-                    style = AppTypography.bodyMedium.copy(color = Primary, fontSize = 14.sp)  ,
+                    style = AppTypography.bodyMedium.copy(color = Primary, fontSize = 16.sp)  ,
                 )
                 Spacer(modifier = Modifier.size(22.dp))
                 Box(
@@ -150,14 +152,14 @@ fun ProductItem(
 
                     Text(
                         text =  " ${product.price}  EGP" ,
-                        style = AppTypography.bodyMedium.copy(color = Primary, fontSize = 14.sp)  ,
+                        style = AppTypography.bodyMedium.copy(color = Primary, fontSize = 16.sp)  ,
                         modifier = Modifier.fillMaxSize()
 
                     )
                 }
 
             }
-            Spacer(modifier = Modifier.size(10.dp))
+            Spacer(modifier = Modifier.size(5.dp))
             Row (
                 modifier = Modifier.fillMaxWidth().height(90.dp) ,
                 verticalAlignment = Alignment.CenterVertically ,

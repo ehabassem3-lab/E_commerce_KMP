@@ -20,6 +20,13 @@ class HomeTabViewModel  (
     private val getProductsUseCase: GetProductsUseCase ,
      private  val getSubCategoryUseCase: GetSubCategoryUseCase
 ): ViewModel(){
+    companion object{
+        val selectedIndex : MutableIntState = mutableIntStateOf(0)
+        fun navigator(index : Int){
+            selectedIndex.value = index
+        }
+
+    }
     val state  : MutableStateFlow<HomeTabStates> = MutableStateFlow(HomeTabStates())
      val selectedIndex : MutableIntState = mutableIntStateOf(0)
 

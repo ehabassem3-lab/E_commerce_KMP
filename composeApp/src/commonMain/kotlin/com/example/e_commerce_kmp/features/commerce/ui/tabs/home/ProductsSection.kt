@@ -19,14 +19,17 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
 import com.example.e_commerce_kmp.features.auth.ui.utilies.Resources
 import com.example.e_commerce_kmp.features.commerce.domain.entities.Product
+import com.example.e_commerce_kmp.features.routes.AppRoutes
 import com.example.e_commerce_kmp.features.utilities.ErrorView
 import com.example.e_commerce_kmp.features.utilities.ShimmerCategoryItem
 
 @Composable
 fun ProductsSection(
-    productApiState : Resources<List<Product>>
+    productApiState : Resources<List<Product>> ,
+    navController  : NavController
 ) {
     Column(
         modifier = Modifier
@@ -55,7 +58,20 @@ fun ProductsSection(
                         ProductItem(
                          product =  product,
                             onProductClick = {
-
+                                navController.navigate(AppRoutes.ProductsDetailsRoute(
+                                    sold=  product.sold,
+                                    images= product.images,
+                                    quantity  = product.quantity,
+                                    availableColors = product.availableColors ,
+                                    imageCover  =  product.imageCover,
+                                    description     = product.description,
+                                    title        = product.title ,
+                                    ratingsQuantity  = product.ratingsQuantity,
+                                    ratingsAverage  = product.ratingsAverage,
+                                    price  = product.price,
+                                    id = product.id,
+                                    priceAfterDiscount = product.priceAfterDiscount
+                                ))
                             },
                             onAddClick = {
 

@@ -93,7 +93,7 @@ fun HomeScreen(
                 CategoriesSection(state.value.categoriesApi){
             viewModel.navigator(1)
                 }
-                ProductsSection(state.value.productsApi)
+                ProductsSection(state.value.productsApi,navController)
             }
 
         }

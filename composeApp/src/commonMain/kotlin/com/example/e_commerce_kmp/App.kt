@@ -12,6 +12,7 @@ import com.example.e_commerce_kmp.features.auth.ui.screens.register.RegisterView
 import com.example.e_commerce_kmp.features.commerce.ui.MainScreen
 import com.example.e_commerce_kmp.features.commerce.ui.SplashView
 import com.example.e_commerce_kmp.features.commerce.ui.tabs.categories.ProductScreen
+import com.example.e_commerce_kmp.features.commerce.ui.tabs.categories.ProductsDetailsScreen
 import com.example.e_commerce_kmp.features.routes.AppRoutes
 
 @Composable
@@ -41,6 +42,25 @@ fun App() {
         composable <AppRoutes.ProductsScreen>{ backStackEntry ->
           val data =   backStackEntry.toRoute<AppRoutes.ProductsScreen>()
             ProductScreen(navController ,data.categoryId , data.subCategoryId)
+        }
+        composable < AppRoutes.ProductsDetailsRoute>{   backStackEntry ->
+             val data = backStackEntry.toRoute<AppRoutes.ProductsDetailsRoute>()
+            ProductsDetailsScreen(
+                id = data.id ?:"" ,
+              ratingsQuantity =   data.ratingsQuantity ,
+             ratingsAverage =   data.ratingsAverage ,
+              priceAfterDiscount =   data.priceAfterDiscount ,
+               price =   data.price ,
+              title =   data.title ,
+                description =  data.description ,
+                imageCover =  data.imageCover ,
+                images = data.images ,
+                sold = data.sold ,
+                quantity = data.quantity ,
+                availableColors = data.availableColors,
+
+        navController =  navController
+            )
         }
 
 

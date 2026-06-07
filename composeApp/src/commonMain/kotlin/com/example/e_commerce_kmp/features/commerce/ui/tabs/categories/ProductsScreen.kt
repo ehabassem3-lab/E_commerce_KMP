@@ -30,12 +30,14 @@ import com.example.e_commerce_kmp.features.commerce.domain.entities.Category
 import com.example.e_commerce_kmp.features.commerce.domain.entities.Product
 import com.example.e_commerce_kmp.features.commerce.ui.tabs.home.HomeTabSearchBar
 import com.example.e_commerce_kmp.features.commerce.ui.tabs.home.ProductItem
+import com.example.e_commerce_kmp.features.routes.AppRoutes
 import com.example.e_commerce_kmp.features.thenes.Primary
 import com.example.e_commerce_kmp.features.utilities.ErrorView
 import com.example.e_commerce_kmp.features.utilities.ShimmerCategoryItem
 import com.example.e_commerce_kmp.ic_logo_route_small
 import org.jetbrains.compose.resources.painterResource
 import org.koin.compose.viewmodel.koinViewModel
+import kotlin.String
 
 @Composable
 fun ProductScreen(
@@ -75,7 +77,22 @@ fun ProductScreen(
                     items(productsList){ product->
                         ProductItem(
                             product,
-                            onProductClick = {  },
+                            onProductClick = {
+                                navController.navigate(AppRoutes.ProductsDetailsRoute(
+                                    sold=  product.sold,
+                                    images= product.images,
+                                quantity  = product.quantity,
+                                availableColors = product.availableColors ,
+                                imageCover  =  product.imageCover,
+                                description     = product.description,
+                                title        = product.title ,
+                                ratingsQuantity  = product.ratingsQuantity,
+                                ratingsAverage  = product.ratingsAverage,
+                                price  = product.price,
+                                id = product.id,
+                                priceAfterDiscount = product.priceAfterDiscount
+                                ))
+                            },
                             onAddClick = { },
                             onWishClick = {}
                         )

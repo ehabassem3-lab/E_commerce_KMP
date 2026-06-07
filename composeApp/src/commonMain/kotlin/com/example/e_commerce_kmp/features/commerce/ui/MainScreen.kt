@@ -68,7 +68,7 @@ fun MainScreen(
         disabledIconColor = Color.White,
         disabledTextColor = Color.White
     )
-   // var selectedIndex by remember { mutableIntStateOf(0) }
+
     val viewModel = koinViewModel<HomeTabViewModel>()
     val selectedIndex = viewModel.selectedIndex
     Scaffold(
