@@ -10,6 +10,7 @@ import com.example.e_commerce_kmp.features.auth.ui.screens.forgetpassword.Forget
 import com.example.e_commerce_kmp.features.auth.ui.screens.login.Login
 import com.example.e_commerce_kmp.features.auth.ui.screens.register.RegisterView
 import com.example.e_commerce_kmp.features.commerce.ui.MainScreen
+import com.example.e_commerce_kmp.features.commerce.ui.search.SearchScreen
 import com.example.e_commerce_kmp.features.commerce.ui.SplashView
 import com.example.e_commerce_kmp.features.commerce.ui.tabs.categories.ProductScreen
 import com.example.e_commerce_kmp.features.commerce.ui.tabs.categories.ProductsDetailsScreen
@@ -26,6 +27,9 @@ fun App() {
     ){
         composable<AppRoutes.Login> {
             Login(navController)
+        }
+        composable <AppRoutes.SearchRoute>{
+            SearchScreen(navController)
         }
         composable<AppRoutes.Register> {
             RegisterView(navController)

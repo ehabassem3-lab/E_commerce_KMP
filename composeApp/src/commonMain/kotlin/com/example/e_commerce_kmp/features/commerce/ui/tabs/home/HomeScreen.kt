@@ -32,6 +32,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.example.e_commerce_kmp.Res
+import com.example.e_commerce_kmp.features.commerce.domain.entities.Category
 import com.example.e_commerce_kmp.features.commerce.ui.tabs.categories.CategoriesScreen
 import com.example.e_commerce_kmp.features.network.httpClient
 import com.example.e_commerce_kmp.features.network.response.home.categories_response.CategoriesResponse
@@ -55,6 +56,7 @@ import org.koin.compose.viewmodel.koinViewModel
 @Composable
 fun HomeScreen(
     navController: NavController,
+    onCategoryClick : (Category) -> Unit
 ){
     val viewModel = koinViewModel<HomeTabViewModel>()
     val state = viewModel.state.collectAsState()
@@ -90,7 +92,7 @@ fun HomeScreen(
             ){
                 HomeTabSearchBar(navController)
                 PromoCarousel()
-                CategoriesSection(state.value.categoriesApi){
+                CategoriesSection(state.value.categoriesApi, onCategoryClick){
             viewModel.navigator(1)
                 }
                 ProductsSection(state.value.productsApi,navController)

@@ -33,6 +33,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.example.e_commerce_kmp.Res
+import com.example.e_commerce_kmp.features.commerce.domain.entities.Category
 import com.example.e_commerce_kmp.features.commerce.ui.tabs.account.AccountScreen
 import com.example.e_commerce_kmp.features.commerce.ui.tabs.categories.CategoriesScreen
 import com.example.e_commerce_kmp.features.commerce.ui.tabs.home.HomeScreen
@@ -53,6 +54,7 @@ fun MainScreen(
     navController: NavController
 ){
     data class  navigationItem(val icon : DrawableResource , val index : Int)
+    var selectedCategory = mutableStateOf<Category?>(null)
     val navigationItems = listOf<navigationItem>(
         navigationItem(Res.drawable.ic_home , 0 ) ,
         navigationItem(Res.drawable.ic_categories , 1 ),
@@ -110,14 +112,19 @@ fun MainScreen(
                         } ,
                         onClick = {
                        selectedIndex.value = item.index
+                            selectedCategory.value = null
                     })
                 }
             }
         }
     ) {
         when(selectedIndex.value){
-            0 -> HomeScreen(navController)
-            1 -> CategoriesScreen(navController)
+            0 -> HomeScreen(navController){
+                selectedIndex.value = 1
+                selectedCategory.value = it
+
+            }
+            1 -> CategoriesScreen(navController ,  selectedCategory.value)
             2 -> WishListScreen(navController)
             3 -> AccountScreen(navController)
 

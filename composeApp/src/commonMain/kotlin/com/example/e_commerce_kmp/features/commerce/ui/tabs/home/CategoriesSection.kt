@@ -56,6 +56,7 @@ import org.jetbrains.compose.resources.painterResource
 @Composable
 fun CategoriesSection (
     categoryApiState : Resources<List<Category>> ,
+    onCategoryClick : (Category) -> Unit ,
     onViewAllClick : () -> Unit
 ){
 
@@ -111,8 +112,11 @@ fun CategoriesSection (
                     verticalArrangement = Arrangement.spacedBy(12.dp),
                     contentPadding = PaddingValues(vertical = 8.dp)
                 ){
+
                     items(categories) { category ->
-                        CategoryItem(category = category)
+                        CategoryItem(category = category){
+                            onCategoryClick(category)
+                        }
                     }
                 }
             }
@@ -124,12 +128,16 @@ fun CategoriesSection (
 @Composable
 fun CategoryItem(
     category: Category,
-    modifier: Modifier = Modifier
-) {
+    modifier: Modifier = Modifier ,
+    onCategoryClick : (Category) -> Unit ,
+
+
+    ) {
     Column(
         modifier = modifier
             .width(85.dp)
             .clickable {
+                onCategoryClick(category)
 
             },
         horizontalAlignment = Alignment.CenterHorizontally,

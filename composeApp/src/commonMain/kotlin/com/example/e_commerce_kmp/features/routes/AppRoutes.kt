@@ -7,6 +7,8 @@ import kotlinx.serialization.Serializable
 sealed class AppRoutes {
     @Serializable
     object Login
+@Serializable
+object SearchRoute
     @Serializable
      object  Register
     @Serializable

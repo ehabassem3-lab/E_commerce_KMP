@@ -58,18 +58,25 @@ import kotlin.collections.emptyList
 @Composable
 fun CategoriesScreen(
     navController: NavController ,
+    category:Category?
 
 ){
     val viewModel = koinViewModel <HomeTabViewModel>()
     val state = viewModel.state.collectAsState()
     var isSubCategoryCLicked by remember { mutableStateOf(false) }
     var subCategoryId by remember { mutableStateOf<String?>(null) }
-    var selectedCategory  = remember {
-        if (state.value.categoriesApi is Resources.Success){
-        mutableStateOf<Category?>(
-            (state.value.categoriesApi as  Resources.Success<List<Category>>).data?.get(0)?:null)
-        }else{
-            null
+    var selectedCategory = remember {
+        if (state.value.categoriesApi is Resources.Success) {
+            val categories =
+                (state.value.categoriesApi as Resources.Success<List<Category>>).data
+
+            val index = if (category == null) 0 else categories?.indexOf(category)
+
+            mutableStateOf<Category?>(
+                categories?.get(index ?: 0)
+            )
+        } else {
+            mutableStateOf<Category?>(null)
         }
     }
     LaunchedEffect(Unit){
