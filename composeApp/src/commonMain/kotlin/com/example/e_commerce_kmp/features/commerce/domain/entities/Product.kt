@@ -7,7 +7,7 @@ import kotlinx.serialization.Serializable
 data class Product(
     val sold: Int? = null,
     val images: List<String?>? = null,
-    val quantity: Int? = null,
+    var quantity: Int? = null,
     val availableColors: List<String?>? = null,
     val imageCover: String? = null,
     val description: String? = null,
@@ -16,5 +16,6 @@ data class Product(
     val ratingsAverage: Double? = null,
     val price: Double? = null,
     val id: String? = null,
-    val priceAfterDiscount: Double? = null
+    val priceAfterDiscount: Double? = null ,
+    var cartQuantity  : Int ? = 0
 )

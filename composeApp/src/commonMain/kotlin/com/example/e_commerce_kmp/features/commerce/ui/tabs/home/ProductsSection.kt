@@ -73,9 +73,6 @@ fun ProductsSection(
                                     priceAfterDiscount = product.priceAfterDiscount
                                 ))
                             },
-                            onAddClick = {
-
-                            },
                             onWishClick = {
 
                             }

@@ -6,6 +6,8 @@ import kotlinx.serialization.Serializable
 
 sealed class AppRoutes {
     @Serializable
+    object Cart
+    @Serializable
     object Login
 @Serializable
 object SearchRoute

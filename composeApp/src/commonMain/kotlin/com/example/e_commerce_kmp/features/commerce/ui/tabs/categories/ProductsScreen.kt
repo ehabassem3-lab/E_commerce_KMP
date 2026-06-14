@@ -93,8 +93,8 @@ fun ProductScreen(
                                 priceAfterDiscount = product.priceAfterDiscount
                                 ))
                             },
-                            onAddClick = { },
-                            onWishClick = {}
+
+                            onWishClick = {} ,
                         )
 
                     }

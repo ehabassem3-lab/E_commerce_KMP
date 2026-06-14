@@ -6,15 +6,14 @@ import com.example.e_commerce_kmp.features.auth.data.reposotories.AuthRepository
 import com.example.e_commerce_kmp.features.auth.domain.reposotories.AuthRepository
 import com.example.e_commerce_kmp.features.auth.domain.usecases.LoginUseCase
 import com.example.e_commerce_kmp.features.auth.ui.screens.login.LoginViewModel
-import com.example.e_commerce_kmp.features.network.httpClient
+import com.example.e_commerce_kmp.features.network.createHttpClient
 import io.ktor.client.HttpClient
 import org.koin.core.module.dsl.viewModel
 import org.koin.dsl.module
 
 val authModule = module{
     single<HttpClient> {
-        httpClient
-
+        createHttpClient(get ())
     }
     single<AuthRemoteDateSource> {
         AuthRemoteDateSourceImpl(get())

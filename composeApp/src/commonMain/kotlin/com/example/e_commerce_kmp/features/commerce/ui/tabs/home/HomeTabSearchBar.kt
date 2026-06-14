@@ -20,6 +20,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.example.e_commerce_kmp.Res
+import com.example.e_commerce_kmp.features.routes.AppRoutes
 import com.example.e_commerce_kmp.features.thenes.Primary
 import com.example.e_commerce_kmp.features.utilities.CustomTextField
 import com.example.e_commerce_kmp.ic_cart
@@ -71,7 +72,7 @@ fun HomeTabSearchBar(navController: NavController){
             modifier = Modifier
                 .padding(start = 5.dp)
                 .size(30.dp).clickable{
-
+                      navController.navigate(AppRoutes.Cart)
                 } ,
             tint = Primary
         )

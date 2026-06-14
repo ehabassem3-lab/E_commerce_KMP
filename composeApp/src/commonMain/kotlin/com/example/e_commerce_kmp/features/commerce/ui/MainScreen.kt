@@ -15,6 +15,8 @@ import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.NavigationBarItemColors
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
@@ -34,6 +36,8 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.example.e_commerce_kmp.Res
 import com.example.e_commerce_kmp.features.commerce.domain.entities.Category
+import com.example.e_commerce_kmp.features.commerce.ui.Cart.CartEvents
+import com.example.e_commerce_kmp.features.commerce.ui.Cart.CartViewModel
 import com.example.e_commerce_kmp.features.commerce.ui.tabs.account.AccountScreen
 import com.example.e_commerce_kmp.features.commerce.ui.tabs.categories.CategoriesScreen
 import com.example.e_commerce_kmp.features.commerce.ui.tabs.home.HomeScreen
@@ -47,13 +51,16 @@ import com.example.e_commerce_kmp.ic_home
 import com.example.e_commerce_kmp.ic_profile
 import org.jetbrains.compose.resources.DrawableResource
 import org.jetbrains.compose.resources.painterResource
+import org.koin.compose.koinInject
 import org.koin.compose.viewmodel.koinViewModel
 
 @Composable
 fun MainScreen(
     navController: NavController
 ){
+
     data class  navigationItem(val icon : DrawableResource , val index : Int)
+
     var selectedCategory = mutableStateOf<Category?>(null)
     val navigationItems = listOf<navigationItem>(
         navigationItem(Res.drawable.ic_home , 0 ) ,
@@ -70,9 +77,14 @@ fun MainScreen(
         disabledIconColor = Color.White,
         disabledTextColor = Color.White
     )
-
+    val cartViewModel = koinInject <CartViewModel>()
+    val state = cartViewModel.state.collectAsState()
     val viewModel = koinViewModel<HomeTabViewModel>()
     val selectedIndex = viewModel.selectedIndex
+    LaunchedEffect(Unit){
+        cartViewModel.doAction(CartEvents.GetCart)
+
+    }
     Scaffold(
         bottomBar = {
             NavigationBar (

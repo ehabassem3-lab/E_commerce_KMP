@@ -22,6 +22,8 @@ import androidx.compose.material3.Card
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -36,9 +38,13 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import coil3.compose.AsyncImage
 import com.example.e_commerce_kmp.Res
 import com.example.e_commerce_kmp.features.commerce.domain.entities.Product
+import com.example.e_commerce_kmp.features.commerce.ui.Cart.AddingProductsItem
+import com.example.e_commerce_kmp.features.commerce.ui.Cart.CartEvents
+import com.example.e_commerce_kmp.features.commerce.ui.Cart.CartViewModel
 import com.example.e_commerce_kmp.features.thenes.AppTypography
 import com.example.e_commerce_kmp.features.thenes.Primary
 import com.example.e_commerce_kmp.ic_add
@@ -48,16 +54,19 @@ import com.example.e_commerce_kmp.ic_heart
 import com.example.e_commerce_kmp.ic_logo_route_small
 import org.jetbrains.compose.resources.DrawableResource
 import org.jetbrains.compose.resources.painterResource
+import org.koin.compose.koinInject
 
 @Composable
 fun ProductItem(
     product: Product,
     onProductClick : () -> Unit  ,
-    onAddClick : () -> Unit,
     onWishClick : () -> Unit ,
 ){
-  var   WishCliked  by remember { mutableStateOf(false) }
-
+    val cartViewModel = koinInject <CartViewModel>()
+    val state = cartViewModel.state.collectAsState()
+    var latestProduct = state.value.latestCart?.product[product.id]
+    val isInCart = latestProduct != null
+   var   WishCliked  by remember { mutableStateOf(false) }
 
     Column(
         modifier = Modifier
@@ -167,22 +176,54 @@ fun ProductItem(
             ){
                 Text(text = "Review (${product.ratingsAverage}) ⭐"   ,
                     style = AppTypography.bodyMedium.copy(color = Primary, fontSize = 12.sp)  ,)
-                Spacer(modifier = Modifier.size(30.dp))
-                Box(
-                    modifier = Modifier
-                        .size(32.dp)
-                        .clip(CircleShape)
-                        .background(Primary)
-                        .clickable { onAddClick() },
-                    contentAlignment = Alignment.Center
-                ) {
-                    Icon(
-                        painter = painterResource(Res.drawable.ic_add),
-                        contentDescription = null,
-                        tint = Color.White,
-                        modifier = Modifier.size(15.dp)
+                Spacer(modifier = Modifier.size(5.dp))
+                if (isInCart){
+                    AddingProductsItem(
+                        onAddClick = {
+                            cartViewModel.doAction(
+                                CartEvents.UpdateCart(product.id?:"" , latestProduct?.cartQuantity?.plus(1) ?: 0 )
+                            )
+
+
+                        } ,
+                        onRemoveClick = {
+                            val currentQty = latestProduct?.cartQuantity ?: 0
+                            if (currentQty == 1) {
+                                cartViewModel.doAction(
+                                    CartEvents.DeleteProduct(product.id ?: "")
+                                )
+                            } else {
+                                cartViewModel.doAction(
+                                    CartEvents.UpdateCart(product.id?:"" , currentQty.minus(1))
+                                )
+                            }
+
+                        } ,
+                        text =  (latestProduct?.cartQuantity ?: 0).toString()
                     )
+                }else{
+                    Box(
+                        modifier = Modifier
+                            .size(32.dp)
+                            .clip(CircleShape)
+                            .background(Primary)
+                            .clickable {
+                                cartViewModel.doAction(
+                                    CartEvents.AddProduct(product.id?:"")
+                                )
+
+                            },
+                        contentAlignment = Alignment.Center
+                    ) {
+                        Icon(
+                            painter = painterResource(Res.drawable.ic_add),
+                            contentDescription = null,
+                            tint = Color.White,
+                            modifier = Modifier.size(15.dp)
+                        )
+                    }
                 }
+
 
 
             }

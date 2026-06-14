@@ -80,9 +80,7 @@ class HomeTabViewModel  (
            val categoriesResult =  categoriesRequest.await()
             val productsResult  = productsRequest.await()
 
-            println(categoriesResult)
-            println("Speraaaaaaaaaaaaaaaaaaaaaate")
-            println(productsResult)
+
             val categoriesState = categoriesResult.fold(
                 onSuccess = { Resources.Success(it) },
                 onFailure = { Resources.Error(it) }

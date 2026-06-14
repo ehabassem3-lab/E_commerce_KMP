@@ -105,6 +105,7 @@ fun ProductsDetailsScreen(
                     contentDescription = "" ,
                     tint = DarkPrimary,
                     modifier = Modifier.size(22.dp).clickable{
+                        navController.navigate(AppRoutes.Cart)
                     }
                 )
 

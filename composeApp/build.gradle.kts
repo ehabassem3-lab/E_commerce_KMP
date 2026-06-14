@@ -28,6 +28,7 @@ kotlin {
     
     sourceSets {
         androidMain.dependencies {
+            implementation("io.ktor:ktor-client-okhttp: 3.4.1")
             implementation("io.coil-kt.coil3:coil-network-okhttp")
             implementation("io.coil-kt.coil3:coil-compose:3.4.0")
             implementation("io.coil-kt.coil3:coil-network-okhttp:3.4.0")

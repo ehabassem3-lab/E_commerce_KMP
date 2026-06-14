@@ -1,6 +1,6 @@
 package com.example.e_commerce_kmp.features.auth.data.datesource.auth_remote_data_source
 
-import com.example.e_commerce_kmp.features.network.httpClient
+import com.example.e_commerce_kmp.features.network.createHttpClient
 import com.example.e_commerce_kmp.features.network.request.auth.LoginRequest
 import com.example.e_commerce_kmp.features.network.response.auth.AuthResponse
 import io.ktor.client.HttpClient
@@ -9,11 +9,13 @@ import io.ktor.client.request.post
 import io.ktor.client.request.setBody
 import io.ktor.http.isSuccess
 
-class AuthRemoteDateSourceImpl(httpClient: HttpClient) : AuthRemoteDateSource {
+class AuthRemoteDateSourceImpl( private val httpClient: HttpClient) : AuthRemoteDateSource {
+
     override suspend fun login(
         email: String,
         password: String
     ): Result<AuthResponse> {
+
         try{
             val response = httpClient.post("v1/auth/signin"){
                 setBody(LoginRequest(email, password))

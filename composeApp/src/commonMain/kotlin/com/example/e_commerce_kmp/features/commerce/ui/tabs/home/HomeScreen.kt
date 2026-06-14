@@ -34,7 +34,6 @@ import androidx.navigation.NavController
 import com.example.e_commerce_kmp.Res
 import com.example.e_commerce_kmp.features.commerce.domain.entities.Category
 import com.example.e_commerce_kmp.features.commerce.ui.tabs.categories.CategoriesScreen
-import com.example.e_commerce_kmp.features.network.httpClient
 import com.example.e_commerce_kmp.features.network.response.home.categories_response.CategoriesResponse
 import com.example.e_commerce_kmp.features.network.response.home.categories_response.RemoteCategory
 import com.example.e_commerce_kmp.features.routes.AppRoutes

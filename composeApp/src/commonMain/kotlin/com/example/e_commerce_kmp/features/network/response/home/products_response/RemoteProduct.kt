@@ -2,6 +2,7 @@ package com.example.e_commerce_kmp.features.network.response.home.products_respo
 
 import com.example.e_commerce_kmp.features.network.response.home.categories_response.RemoteCategory
 import kotlinx.serialization.Contextual
+import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 @Serializable
@@ -17,6 +18,7 @@ data class RemoteProduct(
 	val ratingsAverage: Double? = null,
 	val createdAt: String? = null,
 	val price: Double? = null,
+	@SerialName("_id")
 	val id: String? = null,
 	val subcategory: List<RemoteCategory?>? = null,
 	val category: RemoteCategory? = null,

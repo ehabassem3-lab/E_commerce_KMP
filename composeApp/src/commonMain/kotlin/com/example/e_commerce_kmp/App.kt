@@ -9,6 +9,7 @@ import androidx.navigation.toRoute
 import com.example.e_commerce_kmp.features.auth.ui.screens.forgetpassword.ForgetPassWordView
 import com.example.e_commerce_kmp.features.auth.ui.screens.login.Login
 import com.example.e_commerce_kmp.features.auth.ui.screens.register.RegisterView
+import com.example.e_commerce_kmp.features.commerce.ui.Cart.CartScreen
 import com.example.e_commerce_kmp.features.commerce.ui.MainScreen
 import com.example.e_commerce_kmp.features.commerce.ui.search.SearchScreen
 import com.example.e_commerce_kmp.features.commerce.ui.SplashView
@@ -25,6 +26,9 @@ fun App() {
         navController= navController ,
         startDestination = AppRoutes.Splash
     ){
+        composable <AppRoutes.Cart>{
+            CartScreen(navController)
+        }
         composable<AppRoutes.Login> {
             Login(navController)
         }
