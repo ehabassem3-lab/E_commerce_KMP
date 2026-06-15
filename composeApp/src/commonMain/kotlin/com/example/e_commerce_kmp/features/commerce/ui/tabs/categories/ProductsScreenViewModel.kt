@@ -17,9 +17,13 @@ class ProductsScreenViewModel (
             ProductsEvents.LoadProducts -> {
                 loadProducts()
             }
+
+
         }
 
     }
+
+
 
     private fun loadProducts() {
          state.value  = state.value.copy(productApiState = Resources.Loading)

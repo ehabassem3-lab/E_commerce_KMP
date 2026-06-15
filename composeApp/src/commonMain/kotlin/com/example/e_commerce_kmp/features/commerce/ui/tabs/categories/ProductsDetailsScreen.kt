@@ -43,6 +43,7 @@ import com.example.e_commerce_kmp.features.routes.AppRoutes
 import com.example.e_commerce_kmp.features.thenes.AppTypography
 import com.example.e_commerce_kmp.features.thenes.DarkPrimary
 import com.example.e_commerce_kmp.features.thenes.Primary
+import com.example.e_commerce_kmp.ic_add
 import com.example.e_commerce_kmp.ic_add_cart
 import com.example.e_commerce_kmp.ic_arrow_back
 import com.example.e_commerce_kmp.ic_cart
@@ -74,6 +75,7 @@ fun ProductsDetailsScreen(
     val cartViewModel = koinInject <CartViewModel>()
     val state = cartViewModel.state.collectAsState()
     var latestProduct = state.value.latestCart?.product[id]
+    val isInCart = latestProduct != null
 
     val  number : MutableIntState = mutableIntStateOf(1)
          println(imageCover)
@@ -209,16 +211,42 @@ fun ProductsDetailsScreen(
                     style = AppTypography.bodyMedium.copy(color = DarkPrimary , fontSize = 16.sp)
                 )
                 Spacer(modifier = Modifier.size(40.dp))
-                AddingProductsItem(
-                    onAddClick = {
-                          cartViewModel.doAction(CartEvents.UpdateCart(id?:"",latestProduct?.cartQuantity?.plus(1)?:0))
-                    } ,
-                    onRemoveClick = {
-                        cartViewModel.doAction(CartEvents.UpdateCart(id?:"",latestProduct?.cartQuantity?.minus(1)?:0))
+                if (isInCart){
+                    AddingProductsItem(
+                        onAddClick = {
+                                cartViewModel.doAction(CartEvents.UpdateCart(id?:"",latestProduct?.cartQuantity?.plus(1)?:0))
 
-                    } ,
-                    QuantityNumber = latestProduct?.cartQuantity?:0
-                )
+
+                        } ,
+                        onRemoveClick = {
+                            cartViewModel.doAction(CartEvents.UpdateCart(id?:"",latestProduct?.cartQuantity?.minus(1)?:0))
+
+                        } ,
+                        QuantityNumber = latestProduct?.cartQuantity?:0
+                    )
+                }else{
+                    Box(
+                        modifier = Modifier
+                            .size(32.dp)
+                            .clip(CircleShape)
+                            .background(Primary)
+                            .clickable {
+                                cartViewModel.doAction(
+                                    CartEvents.AddProduct(id?:"")
+                                )
+
+                            },
+                        contentAlignment = Alignment.Center
+                    ) {
+                        Icon(
+                            painter = painterResource(Res.drawable.ic_add),
+                            contentDescription = null,
+                            tint = Color.White,
+                            modifier = Modifier.size(15.dp)
+                        )
+                    }
+                }
+
 
             }
             Spacer(modifier = Modifier.size(10.dp))

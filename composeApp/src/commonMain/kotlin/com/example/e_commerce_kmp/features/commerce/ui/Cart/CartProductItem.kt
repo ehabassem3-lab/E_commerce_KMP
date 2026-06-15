@@ -39,6 +39,7 @@ import androidx.compose.ui.unit.sp
 import coil3.compose.AsyncImage
 import com.example.e_commerce_kmp.Res
 import com.example.e_commerce_kmp.features.commerce.domain.entities.Product
+import com.example.e_commerce_kmp.features.network.response.wish.RemoteWish
 import com.example.e_commerce_kmp.features.thenes.AppTypography
 import com.example.e_commerce_kmp.features.thenes.DarkPrimary
 import com.example.e_commerce_kmp.features.thenes.Primary
@@ -54,12 +55,13 @@ import kotlin.collections.get
 
 @Composable
 fun CartProductItem(
-    product: Product,
+    product: Product? = null,
+    remmoteWish : RemoteWish? = null ,
     onProductClick : () -> Unit,
     ){
         val cartViewModel = koinInject <CartViewModel>()
         val state = cartViewModel.state.collectAsState()
-        var latestProduct = state.value.latestCart?.product[product.id]
+        var latestProduct = state.value.latestCart?.product[product?.id]
         val isInCart = latestProduct != null
         var   WishCliked  by remember { mutableStateOf(false) }
 
@@ -74,7 +76,7 @@ fun CartProductItem(
             modifier = Modifier.fillMaxHeight().width(130.dp) .border( width = 1.dp  , shape =  RoundedCornerShape(20.dp),  color = DarkPrimary)
             ,
             contentScale = ContentScale.FillBounds ,
-            model = product.imageCover ,
+            model = latestProduct?.imageCover ,
             error =painterResource( Res.drawable.ic_logo_route_small ),
             contentDescription = ""
 
@@ -88,7 +90,7 @@ fun CartProductItem(
                 horizontalArrangement = Arrangement.SpaceAround
             ) {
                 Text(
-                    product.title ?: "",
+                    latestProduct?.title ?: "",
                     modifier = Modifier.width(150.dp),
                     style = AppTypography.bodyMedium.copy(
                         fontWeight = FontWeight.Bold,
@@ -101,7 +103,7 @@ fun CartProductItem(
                     contentDescription = "",
                     tint = DarkPrimary,
                     modifier = Modifier.size(24.dp).clickable {
-                        cartViewModel.doAction(CartEvents.DeleteProduct(product.id ?: ""))
+                        cartViewModel.doAction(CartEvents.DeleteProduct(product?.id ?: ""))
                     }
                 )
 
@@ -113,7 +115,7 @@ fun CartProductItem(
                 horizontalArrangement = Arrangement.SpaceAround
             ) {
                 Text(
-                    latestProduct?.priceAfterDiscount.toString() ?: "",
+                    product?.priceAfterDiscount.toString() ?: "",
                     style = AppTypography.bodyMedium.copy(
                         fontWeight = FontWeight.Bold,
                         color = DarkPrimary,
@@ -125,7 +127,7 @@ fun CartProductItem(
                     onAddClick = {
                         cartViewModel.doAction(
                             CartEvents.UpdateCart(
-                                product.id ?: "",
+                                product?.id ?: "",
                                 latestProduct?.cartQuantity?.plus(1) ?: 0
                             )
                         )
@@ -136,11 +138,11 @@ fun CartProductItem(
                         val currentQty = latestProduct?.cartQuantity ?: 0
                         if (currentQty == 1) {
                             cartViewModel.doAction(
-                                CartEvents.DeleteProduct(product.id ?: "")
+                                CartEvents.DeleteProduct(product?.id ?: "")
                             )
                         } else {
                             cartViewModel.doAction(
-                                CartEvents.UpdateCart(product.id ?: "", currentQty.minus(1))
+                                CartEvents.UpdateCart(product?.id ?: "", currentQty.minus(1))
                             )
                         }
 
