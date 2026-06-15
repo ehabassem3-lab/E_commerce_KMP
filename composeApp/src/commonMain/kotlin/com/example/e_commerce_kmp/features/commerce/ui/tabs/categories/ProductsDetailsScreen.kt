@@ -22,6 +22,7 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableIntState
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -35,6 +36,8 @@ import androidx.navigation.NavController
 import coil3.compose.AsyncImage
 import com.example.e_commerce_kmp.Res
 import com.example.e_commerce_kmp.features.commerce.domain.entities.Product
+import com.example.e_commerce_kmp.features.commerce.ui.Cart.CartEvents
+import com.example.e_commerce_kmp.features.commerce.ui.Cart.CartViewModel
 import com.example.e_commerce_kmp.features.commerce.ui.tabs.home.HomeTabViewModel
 import com.example.e_commerce_kmp.features.routes.AppRoutes
 import com.example.e_commerce_kmp.features.thenes.AppTypography
@@ -48,7 +51,9 @@ import com.example.e_commerce_kmp.ic_heart
 import com.example.e_commerce_kmp.ic_logo_route_small
 import com.example.e_commerce_kmp.ic_search
 import org.jetbrains.compose.resources.painterResource
+import org.koin.compose.koinInject
 import org.koin.compose.viewmodel.koinViewModel
+import kotlin.collections.get
 
 @Composable
 fun ProductsDetailsScreen(
@@ -66,6 +71,10 @@ fun ProductsDetailsScreen(
    priceAfterDiscount: Double? = null ,
     navController: NavController
 ){
+    val cartViewModel = koinInject <CartViewModel>()
+    val state = cartViewModel.state.collectAsState()
+    var latestProduct = state.value.latestCart?.product[id]
+
     val  number : MutableIntState = mutableIntStateOf(1)
          println(imageCover)
     LazyColumn (
@@ -201,9 +210,14 @@ fun ProductsDetailsScreen(
                 )
                 Spacer(modifier = Modifier.size(40.dp))
                 AddingProductsItem(
-                    onAddClick = {  } ,
-                    onRemoveClick = {} ,
-                    QuantityNumber = number
+                    onAddClick = {
+                          cartViewModel.doAction(CartEvents.UpdateCart(id?:"",latestProduct?.cartQuantity?.plus(1)?:0))
+                    } ,
+                    onRemoveClick = {
+                        cartViewModel.doAction(CartEvents.UpdateCart(id?:"",latestProduct?.cartQuantity?.minus(1)?:0))
+
+                    } ,
+                    QuantityNumber = latestProduct?.cartQuantity?:0
                 )
 
             }
@@ -235,7 +249,7 @@ fun ProductsDetailsScreen(
                         .width(270.dp)
                         .background(Primary, shape = RoundedCornerShape(20.dp))
                         .clickable{
-
+                                      navController.navigate(AppRoutes.Cart)
                     } ,
                     verticalAlignment = Alignment.CenterVertically ,
                     horizontalArrangement = Arrangement.SpaceEvenly ,

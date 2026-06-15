@@ -79,6 +79,7 @@ fun ProductScreen(
                             product,
                             onProductClick = {
                                 navController.navigate(AppRoutes.ProductsDetailsRoute(
+                                    productQuantity = product.cartQuantity,
                                     sold=  product.sold,
                                     images= product.images,
                                 quantity  = product.quantity,

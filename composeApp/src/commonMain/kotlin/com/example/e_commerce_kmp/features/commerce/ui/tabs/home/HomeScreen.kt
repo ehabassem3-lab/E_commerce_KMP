@@ -33,6 +33,8 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.example.e_commerce_kmp.Res
 import com.example.e_commerce_kmp.features.commerce.domain.entities.Category
+import com.example.e_commerce_kmp.features.commerce.ui.Cart.CartEvents
+import com.example.e_commerce_kmp.features.commerce.ui.Cart.CartViewModel
 import com.example.e_commerce_kmp.features.commerce.ui.tabs.categories.CategoriesScreen
 import com.example.e_commerce_kmp.features.network.response.home.categories_response.CategoriesResponse
 import com.example.e_commerce_kmp.features.network.response.home.categories_response.RemoteCategory
@@ -50,6 +52,7 @@ import io.ktor.client.call.body
 import io.ktor.client.request.get
 import io.ktor.http.isSuccess
 import org.jetbrains.compose.resources.painterResource
+import org.koin.compose.koinInject
 import org.koin.compose.viewmodel.koinViewModel
 
 @Composable
@@ -58,10 +61,12 @@ fun HomeScreen(
     onCategoryClick : (Category) -> Unit
 ){
     val viewModel = koinViewModel<HomeTabViewModel>()
+    val cartViewModel = koinInject <CartViewModel>()
+
     val state = viewModel.state.collectAsState()
     LaunchedEffect(Unit){
         viewModel.doAction(HomeTabEvents.LoadData)
-
+        cartViewModel.doAction(CartEvents.GetCart)
     }
     LazyColumn (
         modifier = Modifier

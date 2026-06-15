@@ -21,6 +21,7 @@ import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -49,6 +50,10 @@ fun CartScreen(navController: NavController){
 
     val cartViewModel = koinInject <CartViewModel>()
     val state = cartViewModel.state.collectAsState()
+    LaunchedEffect(1){
+        cartViewModel.doAction(CartEvents.GetCart)
+
+    }
     Column (
         modifier =
             Modifier
@@ -108,14 +113,18 @@ fun CartScreen(navController: NavController){
                 val productList: List<Product> =productCollection.toList()
                 LazyVerticalGrid(
                     columns = GridCells.Fixed(1),
-                    modifier = Modifier.fillMaxWidth()
+                    modifier = Modifier.fillMaxWidth() ,
+                    verticalArrangement = Arrangement.spacedBy(10.dp) ,
+                    horizontalArrangement = Arrangement.spacedBy(8.dp)
                 ) {
                     items(productList){
-                        ProductItem(
+                        Spacer(modifier = Modifier.size(8.dp))
+                        CartProductItem(
                             it,
                             onProductClick = {} ,
-                            onWishClick = {  }
                         )
+                        Spacer(modifier = Modifier.size(8.dp))
+
 
                     }
 

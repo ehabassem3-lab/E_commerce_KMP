@@ -32,7 +32,7 @@ import org.jetbrains.compose.resources.painterResource
 fun AddingProductsItem(
     onAddClick : () -> Unit ,
     onRemoveClick : () -> Unit ,
-    QuantityNumber : MutableIntState
+    QuantityNumber : Int
 ){
     Row (
         modifier = Modifier
@@ -52,7 +52,7 @@ fun AddingProductsItem(
             tint = Color.White
         )
         Text(
-            QuantityNumber.value.toString() ,
+            QuantityNumber.toString() ,
             style = AppTypography.bodyMedium.copy(fontWeight = FontWeight.Bold , color = Color.White)
         )
         Icon(

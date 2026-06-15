@@ -81,7 +81,7 @@ fun MainScreen(
     val state = cartViewModel.state.collectAsState()
     val viewModel = koinViewModel<HomeTabViewModel>()
     val selectedIndex = viewModel.selectedIndex
-    LaunchedEffect(Unit){
+    LaunchedEffect(state.value.latestCart){
         cartViewModel.doAction(CartEvents.GetCart)
 
     }

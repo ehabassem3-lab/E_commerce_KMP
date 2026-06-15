@@ -34,7 +34,8 @@ object SearchRoute
         val ratingsAverage: Double? = null,
         val price: Double? = null,
         val id: String? = null,
-        val priceAfterDiscount: Double? = null
+        val priceAfterDiscount: Double? = null ,
+        val productQuantity : Int ? = null
     )
 
     @Serializable
