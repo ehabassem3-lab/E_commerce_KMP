@@ -19,11 +19,11 @@ data class RemoteWish(
 	val createdAt: String? = null,
 	val price: Int? = null,
 	val v: Int? = null,
-	@SerialName("_id")
 	val id: String? = null,
 	val subcategory: List<RemoteCategory?>? = null,
 	val category: RemoteCategory? = null,
 	val brand: RemoteProduct? = null,
 	val slug: String? = null,
-	val updatedAt: String? = null
+	val updatedAt: String? = null ,
+	val WishCliked  : Boolean? = null
 )

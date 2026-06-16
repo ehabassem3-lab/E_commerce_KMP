@@ -8,7 +8,8 @@ data class WishListStates(
     val wishApiState : Resources<WishResponse> = Resources.idle,
     val addToWishApiState : Resources<WishResponse> = Resources.idle,
     val removeFromWishApiState : Resources<WishResponse> = Resources.idle,
-    val latestCart : WishResponse? = null
+
+
 )
 
 sealed class WishListEvents{

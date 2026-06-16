@@ -34,8 +34,12 @@ import androidx.navigation.NavController
 import com.example.e_commerce_kmp.Res
 import com.example.e_commerce_kmp.features.commerce.domain.entities.Category
 import com.example.e_commerce_kmp.features.commerce.ui.Cart.CartEvents
+import com.example.e_commerce_kmp.features.commerce.ui.Cart.CartScreen
 import com.example.e_commerce_kmp.features.commerce.ui.Cart.CartViewModel
 import com.example.e_commerce_kmp.features.commerce.ui.tabs.categories.CategoriesScreen
+import com.example.e_commerce_kmp.features.commerce.ui.tabs.wishlist.WishListEvents
+import com.example.e_commerce_kmp.features.commerce.ui.tabs.wishlist.WishListItem
+import com.example.e_commerce_kmp.features.commerce.ui.tabs.wishlist.WishListViewModel
 import com.example.e_commerce_kmp.features.network.response.home.categories_response.CategoriesResponse
 import com.example.e_commerce_kmp.features.network.response.home.categories_response.RemoteCategory
 import com.example.e_commerce_kmp.features.routes.AppRoutes
@@ -60,13 +64,16 @@ fun HomeScreen(
     navController: NavController,
     onCategoryClick : (Category) -> Unit
 ){
-    val viewModel = koinViewModel<HomeTabViewModel>()
+    val homeViewModel = koinViewModel<HomeTabViewModel>()
     val cartViewModel = koinInject <CartViewModel>()
+    val wishListViewModel = koinInject<WishListViewModel>()
 
-    val state = viewModel.state.collectAsState()
+    val homeState = homeViewModel.state.collectAsState()
+
     LaunchedEffect(Unit){
-        viewModel.doAction(HomeTabEvents.LoadData)
+        homeViewModel.doAction(HomeTabEvents.LoadData)
         cartViewModel.doAction(CartEvents.GetCart)
+        wishListViewModel.doAction(WishListEvents.GetWishList)
     }
     LazyColumn (
         modifier = Modifier
@@ -96,10 +103,10 @@ fun HomeScreen(
             ){
                 HomeTabSearchBar(navController)
                 PromoCarousel()
-                CategoriesSection(state.value.categoriesApi, onCategoryClick){
-            viewModel.navigator(1)
+                CategoriesSection(homeState.value.categoriesApi, onCategoryClick){
+            homeViewModel.navigator(1)
                 }
-                ProductsSection(state.value.productsApi,navController)
+                ProductsSection(homeState.value.productsApi,navController)
             }
 
         }

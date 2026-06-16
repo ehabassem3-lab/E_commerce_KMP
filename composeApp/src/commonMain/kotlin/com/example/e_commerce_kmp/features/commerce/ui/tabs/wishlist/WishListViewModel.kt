@@ -1,5 +1,6 @@
 package com.example.e_commerce_kmp.features.commerce.ui.tabs.wishlist
 
+import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.e_commerce_kmp.features.auth.ui.utilies.Resources
@@ -25,7 +26,10 @@ class WishListViewModel( val repository: WishRepository) : ViewModel() {
             val response = repository.addWish(productId)
             if (response.isSuccess){
                 val wish = response.getOrNull()
-                state.value = state.value.copy(addToWishApiState = Resources.Success(wish))
+                state.value = state.value.copy(
+                    addToWishApiState = Resources.Success(wish) ,
+                )
+                getWish()
 
             }else{
                 state.value = state.value.copy(addToWishApiState = Resources.Error(Throwable("")))
@@ -39,7 +43,10 @@ class WishListViewModel( val repository: WishRepository) : ViewModel() {
             val response = repository.removeWish(productId)
             if (response.isSuccess){
                 val wish = response.getOrNull()
-                state.value = state.value.copy(removeFromWishApiState = Resources.Success(wish))
+                state.value = state.value.copy(
+                    removeFromWishApiState = Resources.Success(wish) ,
+
+                )
 
             }else{
                 state.value = state.value.copy(removeFromWishApiState = Resources.Error(Throwable("")))

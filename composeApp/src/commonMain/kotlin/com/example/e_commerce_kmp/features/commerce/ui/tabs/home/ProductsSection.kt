@@ -16,21 +16,30 @@ import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.example.e_commerce_kmp.features.auth.ui.utilies.Resources
 import com.example.e_commerce_kmp.features.commerce.domain.entities.Product
+import com.example.e_commerce_kmp.features.commerce.ui.tabs.wishlist.WishListEvents
+import com.example.e_commerce_kmp.features.commerce.ui.tabs.wishlist.WishListViewModel
 import com.example.e_commerce_kmp.features.routes.AppRoutes
 import com.example.e_commerce_kmp.features.utilities.ErrorView
 import com.example.e_commerce_kmp.features.utilities.ShimmerCategoryItem
+import org.koin.compose.koinInject
 
 @Composable
 fun ProductsSection(
     productApiState : Resources<List<Product>> ,
     navController  : NavController
 ) {
+    val wishListViewModel = koinInject<WishListViewModel>()
+    val wishState = wishListViewModel.state.collectAsState()
+
+
     Column(
         modifier = Modifier
             .fillMaxWidth(.95f)

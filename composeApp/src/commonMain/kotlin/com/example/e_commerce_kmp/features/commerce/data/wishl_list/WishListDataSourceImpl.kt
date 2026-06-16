@@ -1,5 +1,6 @@
 package com.example.e_commerce_kmp.features.commerce.data.wishl_list
 
+import com.example.e_commerce_kmp.features.network.request.wish.AddWishRequest
 import com.example.e_commerce_kmp.features.network.response.wish.WishResponse
 import io.ktor.client.HttpClient
 import io.ktor.client.call.body
@@ -25,7 +26,7 @@ class WishListDataSourceImpl( val httpClient: HttpClient) : WishListDataSource {
 
     override suspend fun addWishToList(productId: String): Result<WishResponse>{
         try {
-            val request = httpClient.post(url){ setBody(productId) }
+            val request = httpClient.post(url)  {  setBody(AddWishRequest(productId)) }
             val response = request.body<WishResponse>()
             return Result.success(response)
 

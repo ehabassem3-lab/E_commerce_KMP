@@ -45,6 +45,9 @@ import com.example.e_commerce_kmp.features.commerce.domain.entities.Product
 import com.example.e_commerce_kmp.features.commerce.ui.Cart.AddingProductsItem
 import com.example.e_commerce_kmp.features.commerce.ui.Cart.CartEvents
 import com.example.e_commerce_kmp.features.commerce.ui.Cart.CartViewModel
+import com.example.e_commerce_kmp.features.commerce.ui.tabs.wishlist.WishListEvents
+import com.example.e_commerce_kmp.features.commerce.ui.tabs.wishlist.WishListViewModel
+import com.example.e_commerce_kmp.features.network.response.wish.WishResponse
 import com.example.e_commerce_kmp.features.thenes.AppTypography
 import com.example.e_commerce_kmp.features.thenes.Primary
 import com.example.e_commerce_kmp.ic_add
@@ -55,6 +58,8 @@ import com.example.e_commerce_kmp.ic_logo_route_small
 import org.jetbrains.compose.resources.DrawableResource
 import org.jetbrains.compose.resources.painterResource
 import org.koin.compose.koinInject
+import com.example.e_commerce_kmp.features.auth.ui.utilies.Resources
+import com.example.e_commerce_kmp.features.commerce.ui.tabs.wishlist.WishListItem
 
 @Composable
 fun ProductItem(
@@ -62,11 +67,15 @@ fun ProductItem(
     onProductClick : () -> Unit  ,
     onWishClick : () -> Unit ,
 ){
+
     val cartViewModel = koinInject <CartViewModel>()
     val state = cartViewModel.state.collectAsState()
-    var latestProduct = state.value.latestCart?.product[product.id]
+    val latestProduct = state.value.latestCart?.product?.get(product.id)
     val isInCart = latestProduct != null
-   var   WishCliked  by remember { mutableStateOf(false) }
+    val wishListViewModel = koinInject<WishListViewModel>()
+    val wishState = wishListViewModel.state.collectAsState()
+    val wishList = (wishState.value.wishApiState as? Resources.Success)?.data?.data ?: emptyList()
+    val isWishListed = wishList.any { it?.id == product.id }
 
     Column(
         modifier = Modifier
@@ -103,15 +112,22 @@ fun ProductItem(
                         .clip(CircleShape)
                         .background(Color.White)
                         .clickable{
-                            WishCliked = !WishCliked
-                            onWishClick()
+                            println(wishList)
+
+                            if (isWishListed){
+                                wishListViewModel.doAction(WishListEvents.DeleteWshList(product.id?:""))
+                            }else{
+                                wishListViewModel.doAction(WishListEvents.AddWshList(product.id?:""))
+
+                            }
+
 
                         } ,
                     contentAlignment = Alignment.Center
                 ){
                     Icon(
                         painter =
-                           if (WishCliked) painterResource(Res.drawable.ic_full_heart)
+                           if (isWishListed) painterResource(Res.drawable.ic_full_heart)
                            else  painterResource(Res.drawable.ic_heart)  ,
                         contentDescription = "" ,
                         tint =  Primary,
@@ -181,7 +197,7 @@ fun ProductItem(
                     AddingProductsItem(
                         onAddClick = {
                             cartViewModel.doAction(
-                                CartEvents.UpdateCart(product.id?:"" , latestProduct?.cartQuantity?.plus(1) ?: 0 )
+                                CartEvents.UpdateCart(latestProduct.id?:"" , latestProduct?.cartQuantity?.plus(1) ?: 0 )
                             )
 
 
@@ -190,7 +206,7 @@ fun ProductItem(
                             val currentQty = latestProduct?.cartQuantity ?: 0
                             if (currentQty == 1) {
                                 cartViewModel.doAction(
-                                    CartEvents.DeleteProduct(product.id ?: "")
+                                    CartEvents.DeleteProduct(latestProduct.id ?: "")
                                 )
                             } else {
                                 cartViewModel.doAction(
