@@ -69,12 +69,11 @@ fun HomeScreen(
     val wishListViewModel = koinInject<WishListViewModel>()
 
     val homeState = homeViewModel.state.collectAsState()
+       LaunchedEffect(Unit){
+           cartViewModel.doAction(CartEvents.GetCart)
 
-    LaunchedEffect(Unit){
-        homeViewModel.doAction(HomeTabEvents.LoadData)
-        cartViewModel.doAction(CartEvents.GetCart)
-        wishListViewModel.doAction(WishListEvents.GetWishList)
-    }
+       }
+
     LazyColumn (
         modifier = Modifier
             .fillMaxSize()

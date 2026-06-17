@@ -27,6 +27,7 @@ import com.example.e_commerce_kmp.features.commerce.ui.Cart.CartProductItem
 import com.example.e_commerce_kmp.features.commerce.ui.tabs.home.HomeTabSearchBar
 import com.example.e_commerce_kmp.features.network.response.wish.RemoteWish
 import com.example.e_commerce_kmp.features.network.response.wish.WishResponse
+import com.example.e_commerce_kmp.features.routes.AppRoutes
 import com.example.e_commerce_kmp.features.thenes.Primary
 import com.example.e_commerce_kmp.ic_logo_route_small
 import org.jetbrains.compose.resources.painterResource
@@ -35,10 +36,12 @@ import org.koin.compose.viewmodel.koinViewModel
 
 @Composable
 fun WishListScreen(navController: NavController){
+    println("WishListScreen recomposed")
+
     val viewModel = koinInject<WishListViewModel>()
     val state = viewModel.state.collectAsState()
 
-    LaunchedEffect(Unit){
+    LaunchedEffect(state){
         viewModel.doAction(WishListEvents.GetWishList)
     }
     Column (
@@ -59,7 +62,7 @@ fun WishListScreen(navController: NavController){
             )
         }
         HomeTabSearchBar(navController)
-        Spacer(modifier = Modifier.size(40.dp))
+        Spacer(modifier = Modifier.size(20.dp))
         Column (modifier = Modifier.fillMaxSize()){
             when (state.value.wishApiState) {
                 is Resources.Error -> {}
@@ -74,15 +77,29 @@ fun WishListScreen(navController: NavController){
                         horizontalArrangement = Arrangement.spacedBy(8.dp)
                     ) {
                         items(wishList){
-                            CartProductItem(
+                            WishListItem(
                                 remmoteWish = it,
-                                onProductClick = {}
+                                onProductClick =
+                                    {navController.navigate(AppRoutes.ProductsDetailsRoute(
+                                        sold = it?.sold,
+                                        quantity = it?.quantity,
+                                        imageCover = it?.imageCover,
+                                        description = it?.description,
+                                        title = it?.title,
+                                        ratingsQuantity =it?.ratingsQuantity?.toDouble() ,
+                                        ratingsAverage  = it?.ratingsAverage ,
+                                        price = it?.price?.toDouble() ,
+                                        id = it?.id,
+                                        priceAfterDiscount = it?.price?.toDouble(),
+                                        productQuantity = it?.quantity
+                                    ))
+                                    }
                             )
 
                         }
                     }
                 }
-                Resources.idle -> TODO()
+                Resources.idle ->{}
             }
         }
     }

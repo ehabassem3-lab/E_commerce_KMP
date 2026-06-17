@@ -69,9 +69,11 @@ fun ProductItem(
 ){
 
     val cartViewModel = koinInject <CartViewModel>()
+
     val state = cartViewModel.state.collectAsState()
     val latestProduct = state.value.latestCart?.product?.get(product.id)
     val isInCart = latestProduct != null
+
     val wishListViewModel = koinInject<WishListViewModel>()
     val wishState = wishListViewModel.state.collectAsState()
     val wishList = (wishState.value.wishApiState as? Resources.Success)?.data?.data ?: emptyList()
@@ -113,7 +115,6 @@ fun ProductItem(
                         .background(Color.White)
                         .clickable{
                             println(wishList)
-
                             if (isWishListed){
                                 wishListViewModel.doAction(WishListEvents.DeleteWshList(product.id?:""))
                             }else{
@@ -197,7 +198,7 @@ fun ProductItem(
                     AddingProductsItem(
                         onAddClick = {
                             cartViewModel.doAction(
-                                CartEvents.UpdateCart(latestProduct.id?:"" , latestProduct?.cartQuantity?.plus(1) ?: 0 )
+                                CartEvents.UpdateCart(product.id?:"" , latestProduct?.cartQuantity?.plus(1) ?: 0 )
                             )
 
 
@@ -206,7 +207,7 @@ fun ProductItem(
                             val currentQty = latestProduct?.cartQuantity ?: 0
                             if (currentQty == 1) {
                                 cartViewModel.doAction(
-                                    CartEvents.DeleteProduct(latestProduct.id ?: "")
+                                    CartEvents.DeleteProduct(product.id ?: "")
                                 )
                             } else {
                                 cartViewModel.doAction(

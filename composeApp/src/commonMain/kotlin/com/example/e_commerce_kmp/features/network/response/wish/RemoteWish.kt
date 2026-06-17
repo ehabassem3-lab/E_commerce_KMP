@@ -25,5 +25,5 @@ data class RemoteWish(
 	val brand: RemoteProduct? = null,
 	val slug: String? = null,
 	val updatedAt: String? = null ,
-	val WishCliked  : Boolean? = null
+	val WishCliked  : Boolean? = null ,
 )

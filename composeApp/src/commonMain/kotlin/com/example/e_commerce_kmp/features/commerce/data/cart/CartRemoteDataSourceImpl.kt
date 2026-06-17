@@ -31,8 +31,7 @@ class CartRemoteDataSourceImpl(val httpClient: HttpClient) : CartRemoteDateSourc
     override suspend fun addProductToCart(productId: String): Result<CartResponse> {
         try {
             val request = httpClient.post(url){ setBody(AddToCartRequest(productId)) }
-            val response = request.body<CartResponse>()
-            return Result.success(response)
+            return getCart()
 
         }catch (t : Throwable){
              return Result.failure(Throwable("Error While Adding TO Cart Form The Data Source"))

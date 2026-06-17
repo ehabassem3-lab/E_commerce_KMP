@@ -41,6 +41,7 @@ import com.example.e_commerce_kmp.features.commerce.ui.Cart.CartViewModel
 import com.example.e_commerce_kmp.features.commerce.ui.tabs.account.AccountScreen
 import com.example.e_commerce_kmp.features.commerce.ui.tabs.categories.CategoriesScreen
 import com.example.e_commerce_kmp.features.commerce.ui.tabs.home.HomeScreen
+import com.example.e_commerce_kmp.features.commerce.ui.tabs.home.HomeTabEvents
 import com.example.e_commerce_kmp.features.commerce.ui.tabs.home.HomeTabViewModel
 import com.example.e_commerce_kmp.features.commerce.ui.tabs.wishlist.WishListEvents
 import com.example.e_commerce_kmp.features.commerce.ui.tabs.wishlist.WishListScreen
@@ -87,9 +88,11 @@ fun MainScreen(
 
     val viewModel = koinViewModel<HomeTabViewModel>()
     val selectedIndex = viewModel.selectedIndex
-    LaunchedEffect(state.value.latestCart){
+    LaunchedEffect(Unit ){
         cartViewModel.doAction(CartEvents.GetCart)
         viewModelWish.doAction(WishListEvents.GetWishList)
+        viewModel.doAction(HomeTabEvents.LoadData)
+
     }
     Scaffold(
         bottomBar = {

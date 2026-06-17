@@ -54,7 +54,7 @@ class CartViewModel (private  val cartRepository: CartRepository) : ViewModel() 
            if (response.isSuccess){
                val cart = response.getOrNull()
                state.value = state.value.copy(updateCartApiState = Resources.Success(cart)
-               , latestCart =  cart
+               , latestCart =  cart , cartApiState =Resources.Success(cart)
                )
            }else{
                state.value = state.value.copy(  cartApiState = Resources.Error(response.exceptionOrNull()!!) ,)
@@ -70,7 +70,7 @@ class CartViewModel (private  val cartRepository: CartRepository) : ViewModel() 
              val cart = response.getOrNull()
              state.value =state.value.copy(
                  removeFromCartApiState = Resources.Success(cart)
-                 , latestCart =  cart
+                 , latestCart =  cart , cartApiState =Resources.Success(cart)
              )
 
          }else{
@@ -87,7 +87,7 @@ class CartViewModel (private  val cartRepository: CartRepository) : ViewModel() 
           if (response.isSuccess){
               val cart = response.getOrNull()
               println(cart)
-              state.value = state.value.copy(addToCartApiState = Resources.Success(cart) , latestCart = cart)
+              state.value = state.value.copy(addToCartApiState = Resources.Success(cart) , latestCart = cart ,  cartApiState =Resources.Success(cart))
           }else{
               state.value = state.value.copy(addToCartApiState = Resources.Error(response.exceptionOrNull()!!))
           }

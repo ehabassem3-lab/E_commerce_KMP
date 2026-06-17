@@ -35,10 +35,13 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import coil3.compose.AsyncImage
 import com.example.e_commerce_kmp.Res
+import com.example.e_commerce_kmp.features.auth.ui.utilies.Resources
 import com.example.e_commerce_kmp.features.commerce.domain.entities.Product
 import com.example.e_commerce_kmp.features.commerce.ui.Cart.CartEvents
 import com.example.e_commerce_kmp.features.commerce.ui.Cart.CartViewModel
 import com.example.e_commerce_kmp.features.commerce.ui.tabs.home.HomeTabViewModel
+import com.example.e_commerce_kmp.features.commerce.ui.tabs.wishlist.WishListEvents
+import com.example.e_commerce_kmp.features.commerce.ui.tabs.wishlist.WishListViewModel
 import com.example.e_commerce_kmp.features.routes.AppRoutes
 import com.example.e_commerce_kmp.features.thenes.AppTypography
 import com.example.e_commerce_kmp.features.thenes.DarkPrimary
@@ -76,9 +79,10 @@ fun ProductsDetailsScreen(
     val state = cartViewModel.state.collectAsState()
     var latestProduct = state.value.latestCart?.product[id]
     val isInCart = latestProduct != null
-
-    val  number : MutableIntState = mutableIntStateOf(1)
-         println(imageCover)
+    val wishListViewModel = koinInject<WishListViewModel>()
+    val wishState = wishListViewModel.state.collectAsState()
+    val wishList = (wishState.value.wishApiState as? Resources.Success)?.data?.data ?: emptyList()
+    val isWishListed = wishList.any { it?.id == id }
     LazyColumn (
         modifier = Modifier.fillMaxSize().padding(start = 10.dp , end = 10.dp , top = 75.dp )
     ){
@@ -150,12 +154,32 @@ fun ProductsDetailsScreen(
                             .padding(top = 12.dp, end = 12.dp)
                             .clip(CircleShape)
                             .background(Color.White)
-                            .clickable {
+                            .clickable{
+                                println(id)
+                                if (isWishListed){
+                                    wishListViewModel.doAction(WishListEvents.DeleteWshList(id?:""))
+                                }else{
+                                    wishListViewModel.doAction(WishListEvents.AddWshList(id?:""))
 
-
-                            },
+                                }
+                            }
+                        ,
                         contentAlignment = Alignment.Center
                     ) {
+                        if (isWishListed){
+                            Icon(
+                                painter =
+                                    painterResource(Res.drawable.ic_full_heart),
+                                contentDescription = "",
+                                tint = Primary,
+                                modifier = Modifier
+                                    .size(20.dp)
+
+
+
+
+                            )
+                        }
                         Icon(
                             painter =
                                 painterResource(Res.drawable.ic_heart),
@@ -163,6 +187,7 @@ fun ProductsDetailsScreen(
                             tint = Primary,
                             modifier = Modifier
                                 .size(20.dp)
+
 
 
                         )

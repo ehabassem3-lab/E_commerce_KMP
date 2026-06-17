@@ -26,9 +26,8 @@ class WishListDataSourceImpl( val httpClient: HttpClient) : WishListDataSource {
 
     override suspend fun addWishToList(productId: String): Result<WishResponse>{
         try {
-            val request = httpClient.post(url)  {  setBody(AddWishRequest(productId)) }
-            val response = request.body<WishResponse>()
-            return Result.success(response)
+         httpClient.post(url)  {  setBody(AddWishRequest(productId)) }
+            return getUserWishList()
 
         }catch (e : Throwable){
             return Result.failure(Throwable("error in the Add Wish"))
@@ -38,9 +37,8 @@ class WishListDataSourceImpl( val httpClient: HttpClient) : WishListDataSource {
 
     override suspend fun removeFromWish(productId: String): Result<WishResponse> {
         try {
-            val request = httpClient.delete ("$url/$productId")
-            val response = request.body<WishResponse>()
-            return Result.success(response)
+        httpClient.delete ("$url/$productId")
+            return getUserWishList()
 
         }catch (e : Throwable){
             return Result.failure(Throwable("error in the remove Wish"))

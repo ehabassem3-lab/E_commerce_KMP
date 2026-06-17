@@ -41,12 +41,12 @@ fun HomeTabSearchBar(navController: NavController){
             modifier = Modifier
                 .fillMaxWidth(.9f)
                 .height(70.dp)
-                .clip(RoundedCornerShape(25.dp))
+                .clip(RoundedCornerShape(35.dp))
                 .background(Color.White)
                 .border(
                     width = 3.dp,
                     color = Primary,
-                    shape = RoundedCornerShape(25.dp)
+                    shape = RoundedCornerShape(35.dp)
                 )
 
 
