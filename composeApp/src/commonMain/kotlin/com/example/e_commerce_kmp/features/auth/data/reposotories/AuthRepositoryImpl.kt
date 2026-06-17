@@ -25,4 +25,31 @@ class AuthRepositoryImpl( var authRemoteDateSource: AuthRemoteDateSource , val d
         }
     }
 
+    override suspend fun signUp(
+        name: String,
+        email: String,
+        password: String,
+        rePassword: String ,
+        phone: String
+    ): Result<Unit> {
+         val request = authRemoteDateSource.signUp(email ,password,name, rePassword = password,
+             phone = phone
+         )
+
+        if (request.isSuccess){
+            dataStore.edit { preferences ->
+                preferences[DataStoreKeys.USER_Name] = name
+                preferences[DataStoreKeys.USER_Email] = email
+                preferences[DataStoreKeys.USER_Password] = password
+                preferences[DataStoreKeys.USER_Phone] = phone
+
+            }
+            println("${ request.getOrNull()} Repooooooooo")
+           return Result.success(Unit)
+        }else{
+            return Result.failure(request.exceptionOrNull() ?: Exception("Some THing Went Worng"))
+
+        }
+    }
+
 }

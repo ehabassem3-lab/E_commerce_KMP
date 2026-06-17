@@ -28,8 +28,9 @@ class WishListViewModel( val repository: WishRepository) : ViewModel() {
                 val wish = response.getOrNull()
                 state.value = state.value.copy(
                     addToWishApiState = Resources.Success(wish) ,
+                    wishApiState = Resources.Success(wish)
+
                 )
-                getWish()
 
             }else{
                 state.value = state.value.copy(addToWishApiState = Resources.Error(Throwable("")))
@@ -45,8 +46,9 @@ class WishListViewModel( val repository: WishRepository) : ViewModel() {
                 val wish = response.getOrNull()
                 state.value = state.value.copy(
                     removeFromWishApiState = Resources.Success(wish) ,
+                    wishApiState = Resources.Success(wish)
                 )
-                getWish()
+
 
             }else{
                 state.value = state.value.copy(removeFromWishApiState = Resources.Error(Throwable("")))

@@ -4,4 +4,9 @@ import com.example.e_commerce_kmp.features.network.response.auth.AuthResponse
 
 interface AuthRemoteDateSource {
     suspend fun login(email : String , password : String) : Result<AuthResponse>
+    suspend fun signUp(
+        email : String , password : String ,
+        name : String , phone: String , rePassword : String
+    ) : Result<AuthResponse>
+
 }

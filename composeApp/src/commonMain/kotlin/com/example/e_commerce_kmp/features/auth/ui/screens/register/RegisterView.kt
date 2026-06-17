@@ -13,9 +13,12 @@ import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.wrapContentHeight
+import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
@@ -25,6 +28,8 @@ import androidx.navigation.NavController
 import com.example.e_commerce_kmp.Res
 import com.example.e_commerce_kmp.features.auth.ui.screens.login.LoginEvents
 import com.example.e_commerce_kmp.features.auth.ui.screens.login.LoginViewModel
+import com.example.e_commerce_kmp.features.auth.ui.utilies.Resources
+import com.example.e_commerce_kmp.features.routes.AppRoutes
 import com.example.e_commerce_kmp.features.thenes.AppTypography
 import com.example.e_commerce_kmp.features.thenes.Primary
 import com.example.e_commerce_kmp.features.utilities.CustomButton
@@ -36,6 +41,29 @@ import org.koin.compose.viewmodel.koinViewModel
 
 @Composable
 fun RegisterView(navController: NavController   , modifier: Modifier = Modifier){
+    val viewModel = koinViewModel<RegisterViewModel>()
+    val state = viewModel.state.collectAsState().value
+    val snackbarHostState = remember { SnackbarHostState() }
+    LaunchedEffect(state.apiState) {
+        when (val apiState = state.apiState) {
+            is Resources.Error -> {
+                snackbarHostState.showSnackbar(
+                    message = apiState.message ?: "Something Went Wrong"
+                )
+            }
+            is Resources.Success -> {
+                navController.navigate(AppRoutes.Login) {
+                    popUpTo(AppRoutes.Register) { inclusive = true }
+
+                }
+                snackbarHostState.showSnackbar(
+                    message = "Signed Up Successfully "
+                )
+            }
+            else -> Unit
+        }
+    }
+
          Column (
              modifier = Modifier.fillMaxSize().background(Primary).padding(top = 80.dp , start = 10.dp , end = 10.dp)
          ){
@@ -63,9 +91,9 @@ fun RegisterView(navController: NavController   , modifier: Modifier = Modifier)
                  Spacer(modifier.size(10.dp))
                  CustomTextField(
                      hintText =  "enter your full name" ,
-                     text ="",
+                     text = state.name?:"",
                      onValueChange = {
-
+                           viewModel.doAction(RegisterEvents.OnNameChanged((it)))
 
                      } ,
                      hidePassword = null ,
@@ -79,8 +107,10 @@ fun RegisterView(navController: NavController   , modifier: Modifier = Modifier)
 
                  CustomTextField(
                      hintText = "enter your mobile no.",
-                     text =  "",
+                     text =  state.phone?:"",
                      onValueChange = {
+                         viewModel.doAction(RegisterEvents.OnPhoneChanged((it)))
+
 
                      },
                      isPassword = false,
@@ -95,8 +125,9 @@ fun RegisterView(navController: NavController   , modifier: Modifier = Modifier)
 
                  CustomTextField(
                      hintText = "enter your email address",
-                     text =  "",
+                     text =  state.email?:"",
                      onValueChange = {
+                         viewModel.doAction(RegisterEvents.OnEmailChange((it)))
 
                      },
                      width = 400.dp,
@@ -112,8 +143,9 @@ fun RegisterView(navController: NavController   , modifier: Modifier = Modifier)
 
                  CustomTextField(
                      hintText = "enter your password",
-                     text =  "",
+                     text = state.password?:"",
                      onValueChange = {
+                         viewModel.doAction(RegisterEvents.OnPasswordChange((it)))
 
                      },
                      width = 400.dp,
@@ -126,9 +158,12 @@ fun RegisterView(navController: NavController   , modifier: Modifier = Modifier)
                  CustomButton(
                      text = "Sign Up" ,
                      onClick = {
+                         println("✅ Button clicked") // add this
+
+                         viewModel.doAction(RegisterEvents.OnSignUpClick)
 
                      } ,
-                     isLoading =  false
+                     isLoading =  state.apiState is Resources.Loading
 
                  )
 

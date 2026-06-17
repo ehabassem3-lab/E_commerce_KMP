@@ -9,15 +9,23 @@ import kotlin.collections.forEach
 
 fun RemoteCart.toCart(): Cart {
     val entries = mutableMapOf<String, Product>()
-    products?.forEach {
-        var product = it?.product?.toProduct()!!
-        product.cartQuantity = it.count ?: 0
-        entries[it?.product?.id?:""] = product
+
+    products?.forEach { item ->
+
+        val baseProduct = item?.product?.toProduct()!!
+
+        val product = baseProduct.copy(
+            cartQuantity = item.count ?: 0,
+            price = item.price?.toDouble() ?: 0.0,
+            priceAfterDiscount = item.price?.toDouble() ?: 0.0
+        )
+
+        entries[product.id ?:""] = product
     }
+
     return Cart(
         product = entries,
-        totalPrice = totalCartPrice?:0.0
+        totalPrice = totalCartPrice ?: 0.0
     )
 }
-
 

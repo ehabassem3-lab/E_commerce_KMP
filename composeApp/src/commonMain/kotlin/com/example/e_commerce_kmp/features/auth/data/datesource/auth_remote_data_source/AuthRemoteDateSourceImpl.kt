@@ -2,6 +2,7 @@ package com.example.e_commerce_kmp.features.auth.data.datesource.auth_remote_dat
 
 import com.example.e_commerce_kmp.features.network.createHttpClient
 import com.example.e_commerce_kmp.features.network.request.auth.LoginRequest
+import com.example.e_commerce_kmp.features.network.request.auth.SignUpRequest
 import com.example.e_commerce_kmp.features.network.response.auth.AuthResponse
 import io.ktor.client.HttpClient
 import io.ktor.client.call.body
@@ -33,6 +34,33 @@ class AuthRemoteDateSourceImpl( private val httpClient: HttpClient) : AuthRemote
         }
         catch (t : Throwable){
           return  Result.failure(t)
+        }
+
+    }
+
+    override suspend fun signUp(
+        email: String,
+        password: String,
+        name: String,
+        phone: String,
+        rePassword: String
+    ): Result<AuthResponse> {
+        try {
+
+
+          val signUpRequest =
+              httpClient.post("v1/auth/signup")
+          { setBody(SignUpRequest(name,email,password , rePassword = password,phone)) }
+        val response = signUpRequest.body<AuthResponse>()
+     return   if (signUpRequest.status.isSuccess()){
+         println("${response.user}  dataSoruce")
+             Result.success(response)
+        }else{
+             Result.failure(Exception(response.message ))
+        }
+        }catch (e : Throwable){
+         return    Result.failure(e)
+
         }
 
     }

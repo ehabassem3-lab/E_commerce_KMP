@@ -111,6 +111,7 @@ fun CartScreen(navController: NavController){
             is Resources.Success<Cart> -> {
                 val cartItem = (state.value.cartApiState as Resources.Success<Cart>).data
                 val productList = cartItem?.product?.values?.toList() ?: emptyList()
+                println(productList)
                 LazyVerticalGrid(
                     columns = GridCells.Fixed(1),
                     modifier = Modifier.fillMaxWidth() ,
@@ -121,7 +122,6 @@ fun CartScreen(navController: NavController){
                         Spacer(modifier = Modifier.size(8.dp))
                         CartProductItem(
                             it,
-                            onProductClick = {} ,
                         )
                         Spacer(modifier = Modifier.size(8.dp))
 

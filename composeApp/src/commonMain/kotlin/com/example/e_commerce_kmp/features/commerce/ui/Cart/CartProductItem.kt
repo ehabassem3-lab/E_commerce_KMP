@@ -56,8 +56,7 @@ import kotlin.collections.get
 @Composable
 fun CartProductItem(
     product: Product? = null,
-    remmoteWish : RemoteWish? = null ,
-    onProductClick : () -> Unit,
+
     ){
         val cartViewModel = koinInject <CartViewModel>()
         val state = cartViewModel.state.collectAsState()
@@ -76,7 +75,7 @@ fun CartProductItem(
             modifier = Modifier.fillMaxHeight().width(130.dp) .border( width = 1.dp  , shape =  RoundedCornerShape(20.dp),  color = DarkPrimary)
             ,
             contentScale = ContentScale.FillBounds ,
-            model = latestProduct?.imageCover ,
+            model = product?.imageCover ,
             error =painterResource( Res.drawable.ic_logo_route_small ),
             contentDescription = ""
 
@@ -90,7 +89,7 @@ fun CartProductItem(
                 horizontalArrangement = Arrangement.SpaceAround
             ) {
                 Text(
-                    latestProduct?.title ?: "",
+                    product?.title ?: "",
                     modifier = Modifier.width(150.dp),
                     style = AppTypography.bodyMedium.copy(
                         fontWeight = FontWeight.Bold,
