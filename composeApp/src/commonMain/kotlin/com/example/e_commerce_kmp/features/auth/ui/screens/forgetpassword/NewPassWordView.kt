@@ -140,7 +140,7 @@ fun NewPassWordView(navController: NavController){
             Spacer(modifier = Modifier.size(40.dp))
 
             CustomButton(
-                text = "Reset Password" ,
+                text = "Change The PassWord" ,
                 onClick = {
                     viewModel.doAction(NewPassWordEvents.OnChangeClick)
                 } ,

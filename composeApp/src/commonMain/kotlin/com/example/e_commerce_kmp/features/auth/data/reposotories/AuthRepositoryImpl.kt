@@ -53,6 +53,13 @@ class AuthRepositoryImpl( var authRemoteDateSource: AuthRemoteDateSource , val d
         }
     }
 
+    override suspend fun logOut()  : Result<Unit>{
+      dataStore.edit {
+          preferences -> preferences.clear()
+      }
+        return Result.success(Unit)
+    }
+
     override suspend fun forgetPassWord(email: String): Result<Unit> {
         val request = authRemoteDateSource.forgetPassWord(email)
      return   if (request.isSuccess){
