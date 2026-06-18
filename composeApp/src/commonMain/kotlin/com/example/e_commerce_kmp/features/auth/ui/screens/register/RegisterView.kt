@@ -158,7 +158,6 @@ fun RegisterView(navController: NavController   , modifier: Modifier = Modifier)
                  CustomButton(
                      text = "Sign Up" ,
                      onClick = {
-                         println("✅ Button clicked") // add this
 
                          viewModel.doAction(RegisterEvents.OnSignUpClick)
 

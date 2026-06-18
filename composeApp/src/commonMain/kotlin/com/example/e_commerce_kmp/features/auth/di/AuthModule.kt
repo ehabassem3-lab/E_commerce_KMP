@@ -4,8 +4,14 @@ import com.example.e_commerce_kmp.features.auth.data.datesource.auth_remote_data
 import com.example.e_commerce_kmp.features.auth.data.datesource.auth_remote_data_source.AuthRemoteDateSourceImpl
 import com.example.e_commerce_kmp.features.auth.data.reposotories.AuthRepositoryImpl
 import com.example.e_commerce_kmp.features.auth.domain.reposotories.AuthRepository
+import com.example.e_commerce_kmp.features.auth.domain.usecases.ForgetPassWordUseCase
 import com.example.e_commerce_kmp.features.auth.domain.usecases.LoginUseCase
+import com.example.e_commerce_kmp.features.auth.domain.usecases.ResetPassWordUseCase
 import com.example.e_commerce_kmp.features.auth.domain.usecases.SignUpUseCase
+import com.example.e_commerce_kmp.features.auth.domain.usecases.VerifyCodeUseCase
+import com.example.e_commerce_kmp.features.auth.ui.screens.forgetpassword.ForgetPassWordViewModel
+import com.example.e_commerce_kmp.features.auth.ui.screens.forgetpassword.NewPassWordViewModel
+import com.example.e_commerce_kmp.features.auth.ui.screens.forgetpassword.VerifyCodeViewModel
 import com.example.e_commerce_kmp.features.auth.ui.screens.login.LoginViewModel
 import com.example.e_commerce_kmp.features.auth.ui.screens.register.RegisterViewModel
 import com.example.e_commerce_kmp.features.network.createHttpClient
@@ -30,7 +36,19 @@ factory {
     factory {
         SignUpUseCase(get())
     }
+    factory {
+        ForgetPassWordUseCase(get())
+    }
+    factory {
+        VerifyCodeUseCase(get())
+    }
+    factory {
+        ResetPassWordUseCase(get())
+    }
 
     viewModel { LoginViewModel(get()) }
     viewModel { RegisterViewModel(get()) }
+    viewModel { ForgetPassWordViewModel(get()) }
+    viewModel { VerifyCodeViewModel(get()) }
+    viewModel { NewPassWordViewModel(get()) }
 }

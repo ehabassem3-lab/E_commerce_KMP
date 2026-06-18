@@ -3,6 +3,7 @@ package com.example.e_commerce_kmp.features.auth.data.reposotories
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.edit
+import com.example.e_commerce_kmp.Res
 import com.example.e_commerce_kmp.features.auth.data.datesource.auth_remote_data_source.AuthRemoteDateSource
 import com.example.e_commerce_kmp.features.auth.di.DataStoreKeys
 import com.example.e_commerce_kmp.features.auth.domain.reposotories.AuthRepository
@@ -49,6 +50,40 @@ class AuthRepositoryImpl( var authRemoteDateSource: AuthRemoteDateSource , val d
         }else{
             return Result.failure(request.exceptionOrNull() ?: Exception("Some THing Went Worng"))
 
+        }
+    }
+
+    override suspend fun forgetPassWord(email: String): Result<Unit> {
+        val request = authRemoteDateSource.forgetPassWord(email)
+     return   if (request.isSuccess){
+            println("${ request.getOrNull()} Repooooooooo")
+             Result.success(Unit)
+        }else{
+         Result.failure(Throwable(request.exceptionOrNull()))
+        }
+    }
+
+    override suspend fun verifyCode(code: String): Result<Unit> {
+          val request = authRemoteDateSource.verifyCode(code)
+        return   if (request.isSuccess){
+            println("${ request.getOrNull()} Repooooooooo")
+            Result.success(Unit)
+        }else{
+            Result.failure(Throwable(request.exceptionOrNull()))
+        }
+
+     }
+
+    override suspend fun resetPassWord(
+        email: String,
+        newPassWord: String
+    ): Result<Unit> {
+        val request = authRemoteDateSource.resetPassWord(email,newPassWord)
+      return  if (request.isSuccess){
+          println("${ request.getOrNull()} Repooooooooo")
+          Result.success(Unit)
+        }else{
+          Result.failure(Throwable(request.exceptionOrNull()))
         }
     }
 

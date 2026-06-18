@@ -20,7 +20,10 @@ object SearchRoute
     @Serializable
     object ForgetPassWord
     @Serializable
-    object  ResetPassWord
+    object  NewPassWord
+    @Serializable
+
+    object VerifyCode
     @Serializable
     data class ProductsDetailsRoute(
         val sold: Int? = null,

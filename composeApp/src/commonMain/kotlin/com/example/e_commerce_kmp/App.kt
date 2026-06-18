@@ -7,6 +7,8 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.toRoute
 import com.example.e_commerce_kmp.features.auth.ui.screens.forgetpassword.ForgetPassWordView
+import com.example.e_commerce_kmp.features.auth.ui.screens.forgetpassword.NewPassWordView
+import com.example.e_commerce_kmp.features.auth.ui.screens.forgetpassword.VerifyCodeView
 import com.example.e_commerce_kmp.features.auth.ui.screens.login.Login
 import com.example.e_commerce_kmp.features.auth.ui.screens.register.RegisterView
 import com.example.e_commerce_kmp.features.commerce.ui.Cart.CartScreen
@@ -69,6 +71,12 @@ fun App() {
 
         navController =  navController
             )
+        }
+        composable<AppRoutes.VerifyCode> {
+            VerifyCodeView(navController)
+        }
+        composable<AppRoutes.NewPassWord> {
+            NewPassWordView(navController)
         }
 
 

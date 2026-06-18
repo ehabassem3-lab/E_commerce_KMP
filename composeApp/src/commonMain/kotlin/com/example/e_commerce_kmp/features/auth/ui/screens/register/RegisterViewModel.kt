@@ -38,13 +38,10 @@ class RegisterViewModel(var useCase: SignUpUseCase) : ViewModel() {
     }
 
     private fun signUp() {
-        println("1️⃣ signUp() called")
 
         viewModelScope.launch {
-            println("2️⃣ inside coroutine")
 
             state.value =state.value.copy(apiState = Resources.Loading)
-            println("3️⃣ before useCase.call")
 
             val request = useCase.call(
                 state.value.email ?: "",
@@ -52,7 +49,6 @@ class RegisterViewModel(var useCase: SignUpUseCase) : ViewModel() {
                 state.value.phone ?: "",
                 state.value.name ?: "",
             )
-            println("4️⃣ after useCase.call: $request")
             if (request.isSuccess){
                 state.value = state.value.copy(apiState = Resources.Success() )
             }else{

@@ -14,7 +14,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButtonShapes
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
@@ -25,11 +24,9 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.example.e_commerce_kmp.Res
-import com.example.e_commerce_kmp.features.auth.ui.screens.login.LoginEvents
 import com.example.e_commerce_kmp.features.auth.ui.utilies.Resources
 import com.example.e_commerce_kmp.features.routes.AppRoutes
 import com.example.e_commerce_kmp.features.thenes.AppTypography
@@ -39,14 +36,11 @@ import com.example.e_commerce_kmp.features.utilities.CustomTextField
 import com.example.e_commerce_kmp.ic_arrow_back
 import com.example.e_commerce_kmp.ic_route_logo
 import org.jetbrains.compose.resources.painterResource
-import org.koin.compose.koinInject
 import org.koin.compose.viewmodel.koinViewModel
 
 @Composable
-fun ForgetPassWordView(
-    navController: NavController
-){
-val viewModel = koinViewModel<ForgetPassWordViewModel>()
+fun NewPassWordView(navController: NavController){
+    val viewModel = koinViewModel<NewPassWordViewModel>()
     val state = viewModel.state.collectAsState().value
     val snackbarHostState = remember { SnackbarHostState() }
 
@@ -58,7 +52,7 @@ val viewModel = koinViewModel<ForgetPassWordViewModel>()
                 )
             }
             is Resources.Success -> {
-                navController.navigate(AppRoutes.VerifyCode) {
+                navController.navigate(AppRoutes.Login) {
                     popUpTo(AppRoutes.Register) { inclusive = true }
 
                 }
@@ -115,11 +109,29 @@ val viewModel = koinViewModel<ForgetPassWordViewModel>()
                 modifier = Modifier.padding(end = 200.dp),
                 style = AppTypography.titleMedium)
             Spacer(modifier = Modifier.size(20.dp))
+
             CustomTextField(
-                hintText =  "enter the code in your mail " ,
-                text =state.email?:"",
+                hintText =  "enter your email " ,
+                text = state.email?:"",
                 onValueChange = {
-                    viewModel.doAction(ForgetPassWordEvents.OnEmailChanged(it))
+                    viewModel.doAction(NewPassWordEvents.OnEmailChanged(it))
+                } ,
+                width = 420.dp,
+                isSearchBar = false,
+                hidePassword = null
+            )
+            Spacer(modifier = Modifier.size(20.dp))
+            Text(
+                "New PassWord" ,
+                modifier = Modifier.padding(end = 200.dp),
+                style = AppTypography.titleMedium)
+            Spacer(modifier = Modifier.size(20.dp))
+
+            CustomTextField(
+                hintText =  "enter your new password" ,
+                text = state.passWord?:"",
+                onValueChange = {
+                    viewModel.doAction(NewPassWordEvents.OnPassWordChanged(it))
                 } ,
                 width = 420.dp,
                 isSearchBar = false,
@@ -130,7 +142,7 @@ val viewModel = koinViewModel<ForgetPassWordViewModel>()
             CustomButton(
                 text = "Reset Password" ,
                 onClick = {
-                         viewModel.doAction(ForgetPassWordEvents.OnForgetPassWordClick)
+                    viewModel.doAction(NewPassWordEvents.OnChangeClick)
                 } ,
                 isLoading = state.apiState is Resources.Loading
             )
@@ -140,7 +152,5 @@ val viewModel = koinViewModel<ForgetPassWordViewModel>()
 
         }
     }
-
-
 
 }
