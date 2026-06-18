@@ -16,6 +16,7 @@ import com.example.e_commerce_kmp.features.auth.ui.screens.forgetpassword.Verify
 import com.example.e_commerce_kmp.features.auth.ui.screens.login.LoginViewModel
 import com.example.e_commerce_kmp.features.auth.ui.screens.register.RegisterViewModel
 import com.example.e_commerce_kmp.features.commerce.ui.tabs.account.AccountViewModel
+import com.example.e_commerce_kmp.features.commerce.usecases.GetLoggedUserData
 import com.example.e_commerce_kmp.features.network.createHttpClient
 import io.ktor.client.HttpClient
 import org.koin.core.module.dsl.viewModel
@@ -50,11 +51,14 @@ factory {
     factory {
         LogOutUseCase(get ())
     }
+    factory {
+        GetLoggedUserData(get ())
+    }
 
     viewModel { LoginViewModel(get()) }
     viewModel { RegisterViewModel(get()) }
     viewModel { ForgetPassWordViewModel(get()) }
     viewModel { VerifyCodeViewModel(get()) }
     viewModel { NewPassWordViewModel(get()) }
-    viewModel { AccountViewModel(get () )}
+    viewModel { AccountViewModel(get () ,get())}
 }

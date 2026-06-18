@@ -15,6 +15,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material3.Icon
 import androidx.compose.material3.SnackbarHostState
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
@@ -26,20 +27,33 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.example.e_commerce_kmp.Res
+import com.example.e_commerce_kmp.features.auth.ui.screens.register.RegisterEvents
 import com.example.e_commerce_kmp.features.auth.ui.utilies.Resources
+import com.example.e_commerce_kmp.features.network.response.auth.UserDataResponse
 import com.example.e_commerce_kmp.features.routes.AppRoutes
+import com.example.e_commerce_kmp.features.thenes.AppTypography
 import com.example.e_commerce_kmp.features.thenes.Primary
+import com.example.e_commerce_kmp.features.utilities.CustomTextField
 import com.example.e_commerce_kmp.features.utilities.ErrorView
+import com.example.e_commerce_kmp.ic_closed_eye
 import com.example.e_commerce_kmp.ic_log_out
 import com.example.e_commerce_kmp.ic_logo_route_small
 import org.jetbrains.compose.resources.painterResource
 import org.koin.compose.koinInject
 
 @Composable
-fun AccountScreen(navController: NavController){
+fun AccountScreen(navController: NavController,
+){
     val viewModel = koinInject<AccountViewModel>()
     val state = viewModel.state.collectAsState().value
     val snackbarHostState = remember { SnackbarHostState() }
+    val userData =
+        (state.AccountDataStates as? Resources.Success<UserDataResponse>)?.data
+    println(userData)
+    println(userData)
+    LaunchedEffect(Unit){
+        viewModel.doAction(AccountEvents.getUserData)
+    }
     LaunchedEffect(state.LogOutState){
         when(state.LogOutState){
             is Resources.Error -> {
@@ -60,12 +74,12 @@ fun AccountScreen(navController: NavController){
                 .fillMaxSize()
                 .background(Color.White)
                 .padding(start = 5.dp , end = 5.dp , top = 60.dp, bottom = 100.dp)
-    ){
+    ) {
         Row(
-            modifier = Modifier.fillMaxWidth().height(60.dp) ,
-            verticalAlignment = Alignment.CenterVertically ,
+            modifier = Modifier.fillMaxWidth().height(60.dp),
+            verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.SpaceAround
-        ){
+        ) {
             Box(
                 modifier = Modifier.size(60.dp)
             ) {
@@ -78,15 +92,15 @@ fun AccountScreen(navController: NavController){
             }
             Spacer(modifier = Modifier.size(100.dp))
             Icon(
-                painter = painterResource(Res.drawable.ic_log_out) ,
-                contentDescription = "" ,
+                painter = painterResource(Res.drawable.ic_log_out),
+                contentDescription = "",
                 tint = Color.Red,
-                modifier = Modifier.size(32.dp).clickable{
-                   viewModel.doAction(AccountEvents.onLogOutClick)
+                modifier = Modifier.size(32.dp).clickable {
+                    viewModel.doAction(AccountEvents.onLogOutClick)
                 }
             )
 
         }
-            }
+    }
 
 }

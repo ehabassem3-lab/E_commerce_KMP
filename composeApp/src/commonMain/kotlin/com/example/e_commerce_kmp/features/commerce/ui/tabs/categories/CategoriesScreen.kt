@@ -139,7 +139,10 @@ fun CategoriesScreen(
                                         .padding(5.dp)
                                         .fillMaxWidth()
                                         .height(50.dp)
-                                        .background(if (selectedCategory == category) Color.White else Color.Transparent)
+                                        .background(
+                                            color = if (selectedCategory?.value == it) Color.White else Color.Transparent ,
+                                            shape = RoundedCornerShape(20.dp)
+                                        )
                                 ) {
                                     if (selectedCategory?.value == it) {
                                         Box(

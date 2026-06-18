@@ -7,6 +7,8 @@ import com.example.e_commerce_kmp.Res
 import com.example.e_commerce_kmp.features.auth.data.datesource.auth_remote_data_source.AuthRemoteDateSource
 import com.example.e_commerce_kmp.features.auth.di.DataStoreKeys
 import com.example.e_commerce_kmp.features.auth.domain.reposotories.AuthRepository
+import com.example.e_commerce_kmp.features.network.response.auth.UserDataResponse
+import kotlinx.coroutines.flow.first
 
 class AuthRepositoryImpl( var authRemoteDateSource: AuthRemoteDateSource , val dataStore: DataStore<Preferences>)  : AuthRepository  {
     override suspend fun login(
@@ -17,8 +19,11 @@ class AuthRepositoryImpl( var authRemoteDateSource: AuthRemoteDateSource , val d
         if (result.isSuccess){
            dataStore.edit { preferences ->
                preferences[DataStoreKeys.USER_TOKEN] = result.getOrNull()?.token?:""
-
+               preferences[DataStoreKeys.USER_Email] =  result.getOrNull()?.user?.email?:""
+               preferences[DataStoreKeys.USER_Name] = result.getOrNull()?.user?.name?:""
            }
+            println(dataStore.data.first())
+
             return Result.success(Unit)
 
         }else{
@@ -41,8 +46,6 @@ class AuthRepositoryImpl( var authRemoteDateSource: AuthRemoteDateSource , val d
             dataStore.edit { preferences ->
                 preferences[DataStoreKeys.USER_Name] = name
                 preferences[DataStoreKeys.USER_Email] = email
-                preferences[DataStoreKeys.USER_Password] = password
-                preferences[DataStoreKeys.USER_Phone] = phone
 
             }
             println("${ request.getOrNull()} Repooooooooo")
@@ -59,6 +62,23 @@ class AuthRepositoryImpl( var authRemoteDateSource: AuthRemoteDateSource , val d
       }
         return Result.success(Unit)
     }
+
+    override suspend fun getUserData(): Result<UserDataResponse> {
+        val preferences = dataStore.data.first()
+        return try {
+         Result.success(
+            UserDataResponse(
+                name = preferences[DataStoreKeys.USER_Name]?:"",
+                email = preferences[DataStoreKeys.USER_Email]?:"",
+            )
+        )
+        }catch (e : Throwable){
+             Result.failure(e)
+        }
+
+
+    }
+
 
     override suspend fun forgetPassWord(email: String): Result<Unit> {
         val request = authRemoteDateSource.forgetPassWord(email)

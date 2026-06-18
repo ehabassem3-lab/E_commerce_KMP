@@ -38,7 +38,9 @@ import com.example.e_commerce_kmp.Res
 import com.example.e_commerce_kmp.features.commerce.domain.entities.Category
 import com.example.e_commerce_kmp.features.commerce.ui.Cart.CartEvents
 import com.example.e_commerce_kmp.features.commerce.ui.Cart.CartViewModel
+import com.example.e_commerce_kmp.features.commerce.ui.tabs.account.AccountEvents
 import com.example.e_commerce_kmp.features.commerce.ui.tabs.account.AccountScreen
+import com.example.e_commerce_kmp.features.commerce.ui.tabs.account.AccountViewModel
 import com.example.e_commerce_kmp.features.commerce.ui.tabs.categories.CategoriesScreen
 import com.example.e_commerce_kmp.features.commerce.ui.tabs.home.HomeScreen
 import com.example.e_commerce_kmp.features.commerce.ui.tabs.home.HomeTabEvents
@@ -80,11 +82,9 @@ fun MainScreen(
         disabledIconColor = Color.White,
         disabledTextColor = Color.White
     )
+    val accountViewModel = koinInject<AccountViewModel>()
     val cartViewModel = koinInject <CartViewModel>()
-    val state = cartViewModel.state.collectAsState()
-
     val viewModelWish = koinInject<WishListViewModel>()
-    val stateWish = viewModelWish.state.collectAsState()
 
     val viewModel = koinViewModel<HomeTabViewModel>()
     val selectedIndex = viewModel.selectedIndex
@@ -92,6 +92,7 @@ fun MainScreen(
         cartViewModel.doAction(CartEvents.GetCart)
         viewModelWish.doAction(WishListEvents.GetWishList)
         viewModel.doAction(HomeTabEvents.LoadData)
+        accountViewModel.doAction(AccountEvents.getUserData)
 
     }
     Scaffold(
