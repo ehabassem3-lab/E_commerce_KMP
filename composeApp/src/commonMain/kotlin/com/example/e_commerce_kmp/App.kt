@@ -6,6 +6,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.toRoute
+import com.example.e_commerce_kmp.features.auth.ui.screens.edituser.EditUserPassWordView
 import com.example.e_commerce_kmp.features.auth.ui.screens.edituser.EditUserView
 import com.example.e_commerce_kmp.features.auth.ui.screens.forgetpassword.ForgetPassWordView
 import com.example.e_commerce_kmp.features.auth.ui.screens.forgetpassword.NewPassWordView
@@ -29,6 +30,10 @@ fun App() {
         navController= navController ,
         startDestination = AppRoutes.Splash
     ){
+
+        composable <AppRoutes.EditUserPassWord>{
+            EditUserPassWordView(navController)
+        }
         composable <AppRoutes.EditUser>{
             EditUserView(navController)
         }

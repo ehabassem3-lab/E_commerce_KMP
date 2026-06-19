@@ -20,7 +20,8 @@ class AuthRepositoryImpl( var authRemoteDateSource: AuthRemoteDateSource , val d
            dataStore.edit { preferences ->
                preferences[DataStoreKeys.USER_TOKEN] = result.getOrNull()?.token?:""
                preferences[DataStoreKeys.USER_Email] =  result.getOrNull()?.user?.email?:""
-               preferences[DataStoreKeys.USER_Name] = result.getOrNull()?.user?.name?:""
+               preferences[DataStoreKeys.USER_Name] =  result.getOrNull()?.user?.name?:""
+               preferences[DataStoreKeys.USER_Password] = password
            }
             println(dataStore.data.first())
 
@@ -70,6 +71,7 @@ class AuthRepositoryImpl( var authRemoteDateSource: AuthRemoteDateSource , val d
             UserDataResponse(
                 name = preferences[DataStoreKeys.USER_Name]?:"",
                 email = preferences[DataStoreKeys.USER_Email]?:"",
+                passWord =  preferences[DataStoreKeys.USER_Password] ?:""
             )
         )
         }catch (e : Throwable){

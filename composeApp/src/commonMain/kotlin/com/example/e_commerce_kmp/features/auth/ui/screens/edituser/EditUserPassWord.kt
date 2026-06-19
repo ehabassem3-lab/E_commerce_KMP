@@ -23,6 +23,8 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.example.e_commerce_kmp.Res
+import com.example.e_commerce_kmp.features.auth.ui.screens.forgetpassword.ForgetPassWordEvents
+import com.example.e_commerce_kmp.features.auth.ui.utilies.Resources
 import com.example.e_commerce_kmp.features.routes.AppRoutes
 import com.example.e_commerce_kmp.features.thenes.AppTypography
 import com.example.e_commerce_kmp.features.thenes.Primary
@@ -33,7 +35,9 @@ import com.example.e_commerce_kmp.ic_route_logo
 import org.jetbrains.compose.resources.painterResource
 
 @Composable
-fun EditUserView(navController: NavController){
+fun EditUserPassWordView(navController: NavController){
+
+
     Scaffold (
 
         modifier = Modifier
@@ -75,12 +79,12 @@ fun EditUserView(navController: NavController){
             )
             Spacer(modifier = Modifier.size(20.dp))
             Text(
-                "Name " ,
-                modifier = Modifier.padding(end = 250.dp),
+                "Current Password" ,
+                modifier = Modifier.padding(end = 200.dp),
                 style = AppTypography.titleMedium)
             Spacer(modifier = Modifier.size(20.dp))
             CustomTextField(
-                hintText =  "enter your name " ,
+                hintText =  "enter the old password " ,
                 text ="",
                 onValueChange = {
                 } ,
@@ -90,12 +94,12 @@ fun EditUserView(navController: NavController){
             )
             Spacer(modifier = Modifier.size(20.dp))
             Text(
-                "Email " ,
-                modifier = Modifier.padding(end = 250.dp),
+                "New PassWord" ,
+                modifier = Modifier.padding(end = 200.dp),
                 style = AppTypography.titleMedium)
             Spacer(modifier = Modifier.size(20.dp))
             CustomTextField(
-                hintText =  "enter the email  " ,
+                hintText =  "enter the new password " ,
                 text ="",
                 onValueChange = {
                 } ,
@@ -105,12 +109,12 @@ fun EditUserView(navController: NavController){
             )
             Spacer(modifier = Modifier.size(20.dp))
             Text(
-                "Phone  " ,
-                modifier = Modifier.padding(end = 250.dp),
+                "Re-Enter PassWord " ,
+                modifier = Modifier.padding(end = 200.dp),
                 style = AppTypography.titleMedium)
             Spacer(modifier = Modifier.size(20.dp))
             CustomTextField(
-                hintText =  "enter the phone " ,
+                hintText =  "enter the new password " ,
                 text ="",
                 onValueChange = {
                 } ,
@@ -121,7 +125,7 @@ fun EditUserView(navController: NavController){
             Spacer(modifier = Modifier.size(40.dp))
 
             CustomButton(
-                text = "Update Data" ,
+                text = "Update PassWord" ,
                 onClick = {
 
                 } ,
@@ -133,5 +137,6 @@ fun EditUserView(navController: NavController){
 
         }
     }
+
 
 }

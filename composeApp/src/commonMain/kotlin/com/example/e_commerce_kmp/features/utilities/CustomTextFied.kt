@@ -37,8 +37,10 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.example.e_commerce_kmp.Res
 import com.example.e_commerce_kmp.features.thenes.AppTypography
+import com.example.e_commerce_kmp.features.thenes.DarkPrimary
 import com.example.e_commerce_kmp.features.thenes.Primary
 import com.example.e_commerce_kmp.ic_closed_eye
+import com.example.e_commerce_kmp.ic_edit
 import com.example.e_commerce_kmp.ic_open_eye
 import com.example.e_commerce_kmp.ic_search
 import org.jetbrains.compose.resources.painterResource
@@ -53,7 +55,8 @@ fun CustomTextField(
     width : Dp ,
     isSearchBar : Boolean ,
     onSearchClick: (() -> Unit)? = null,
-    isPassword : Boolean = false
+    isPassword : Boolean = false ,
+    isEdit : Boolean = false
 ) {
 
     var passwordVisible by remember {
@@ -128,5 +131,14 @@ fun CustomTextField(
               tint = Color.Gray
           )
       }
+        if (isEdit){
+            Icon(
+                painter = painterResource(Res.drawable.ic_edit)  ,
+                contentDescription = "" ,
+                tint = DarkPrimary ,
+                modifier = Modifier.size(30.dp).padding(end = 10.dp)
+            )
+
+        }
     }
 }

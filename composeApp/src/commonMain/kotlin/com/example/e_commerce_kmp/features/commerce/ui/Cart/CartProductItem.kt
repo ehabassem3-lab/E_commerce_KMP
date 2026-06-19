@@ -61,15 +61,14 @@ fun CartProductItem(
         val cartViewModel = koinInject <CartViewModel>()
         val state = cartViewModel.state.collectAsState()
         var latestProduct = state.value.latestCart?.product[product?.id]
-        val isInCart = latestProduct != null
-        var   WishCliked  by remember { mutableStateOf(false) }
-
 
     Row (
         modifier = Modifier
-            .fillMaxWidth()
+            .fillMaxWidth(.9f)
             .height(120.dp)
             .border( width = 1.dp  , shape =  RoundedCornerShape(20.dp),  color = DarkPrimary)
+        ,
+
     ){
         AsyncImage(
             modifier = Modifier.fillMaxHeight().width(130.dp) .border( width = 1.dp  , shape =  RoundedCornerShape(20.dp),  color = DarkPrimary)
@@ -80,7 +79,9 @@ fun CartProductItem(
             contentDescription = ""
 
         )
-        Column (modifier = Modifier.fillMaxSize()) {
+        Column (
+            modifier = Modifier.fillMaxSize().padding(top = 20.dp) ,
+        ) {
 
 
             Row(
