@@ -1,5 +1,6 @@
 package com.example.e_commerce_kmp.features.auth.data.reposotories
 
+import androidx.compose.material3.DatePicker
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.edit
@@ -113,6 +114,28 @@ class AuthRepositoryImpl( var authRemoteDateSource: AuthRemoteDateSource , val d
           Result.success(Unit)
         }else{
           Result.failure(Throwable(request.exceptionOrNull()))
+        }
+    }
+
+    override suspend fun updateUserData(
+        name: String,
+        email: String,
+        phone: String
+    ): Result<Unit> {
+        val request = authRemoteDateSource.updateUserData(name,email,phone)
+        return if (request.isSuccess){
+            dataStore.edit {preferences ->
+                preferences[DataStoreKeys.USER_Email] = email
+                preferences[DataStoreKeys.USER_Name] = name
+                preferences[DataStoreKeys.USER_Phone] = phone
+
+            }
+            println(request.getOrNull())
+            Result.success(Unit)
+
+        }else{
+            Result.failure(Throwable(request.exceptionOrNull()))
+
         }
     }
 

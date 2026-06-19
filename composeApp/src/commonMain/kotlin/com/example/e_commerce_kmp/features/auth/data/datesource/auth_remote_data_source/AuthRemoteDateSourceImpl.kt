@@ -5,6 +5,7 @@ import com.example.e_commerce_kmp.features.network.request.auth.ForgetPassWordRe
 import com.example.e_commerce_kmp.features.network.request.auth.LoginRequest
 import com.example.e_commerce_kmp.features.network.request.auth.ResetPassWordRequest
 import com.example.e_commerce_kmp.features.network.request.auth.SignUpRequest
+import com.example.e_commerce_kmp.features.network.request.auth.UpdateUserDataRequest
 import com.example.e_commerce_kmp.features.network.request.auth.VerifyCodeRequest
 import com.example.e_commerce_kmp.features.network.response.auth.AuthResponse
 import io.ktor.client.HttpClient
@@ -99,6 +100,28 @@ class AuthRemoteDateSourceImpl( private val httpClient: HttpClient) : AuthRemote
     }catch (e : Throwable){
         return Result.failure(e)
     }
+    }
+
+    override suspend fun updateUserData(
+        name: String,
+        email: String,
+        phone: String
+    ): Result<Unit> {
+        return try {
+            val request = httpClient.put("v1/users/updateMe"){ setBody(UpdateUserDataRequest(name,email,phone)) }
+            val response = request.body<Unit>()
+            if (request.status.isSuccess()){
+                Result.success(response)
+            }else{
+                Result.failure(Throwable(request.body<Throwable>().message))
+            }
+
+        }catch (e : Throwable){
+            Result.failure(e)
+
+        }
+
+
     }
 
     override suspend fun resetPassWord(

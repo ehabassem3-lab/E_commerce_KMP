@@ -9,6 +9,7 @@ import com.example.e_commerce_kmp.features.auth.domain.usecases.LogOutUseCase
 import com.example.e_commerce_kmp.features.auth.domain.usecases.LoginUseCase
 import com.example.e_commerce_kmp.features.auth.domain.usecases.ResetPassWordUseCase
 import com.example.e_commerce_kmp.features.auth.domain.usecases.SignUpUseCase
+import com.example.e_commerce_kmp.features.auth.domain.usecases.UpdateUserDataUseCase
 import com.example.e_commerce_kmp.features.auth.domain.usecases.VerifyCodeUseCase
 import com.example.e_commerce_kmp.features.auth.ui.screens.forgetpassword.ForgetPassWordViewModel
 import com.example.e_commerce_kmp.features.auth.ui.screens.forgetpassword.NewPassWordViewModel
@@ -54,11 +55,14 @@ factory {
     factory {
         GetLoggedUserData(get ())
     }
+    factory {
+        UpdateUserDataUseCase(get ())
+    }
 
     viewModel { LoginViewModel(get()) }
     viewModel { RegisterViewModel(get()) }
     viewModel { ForgetPassWordViewModel(get()) }
     viewModel { VerifyCodeViewModel(get()) }
     viewModel { NewPassWordViewModel(get()) }
-    viewModel { AccountViewModel(get () ,get())}
+    viewModel { AccountViewModel(get () ,get(),get())}
 }
