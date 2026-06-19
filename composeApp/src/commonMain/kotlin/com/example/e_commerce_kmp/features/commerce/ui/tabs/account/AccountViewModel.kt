@@ -2,7 +2,9 @@ package com.example.e_commerce_kmp.features.commerce.ui.tabs.account
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.e_commerce_kmp.Res
 import com.example.e_commerce_kmp.features.auth.domain.usecases.LogOutUseCase
+import com.example.e_commerce_kmp.features.auth.domain.usecases.UpdateLoggedUserPassWordUseCase
 import com.example.e_commerce_kmp.features.auth.domain.usecases.UpdateUserDataUseCase
 import com.example.e_commerce_kmp.features.auth.ui.utilies.Resources
 import com.example.e_commerce_kmp.features.commerce.usecases.GetLoggedUserData
@@ -13,7 +15,8 @@ import kotlinx.io.files.Path
 class AccountViewModel(
     private  val useCase: LogOutUseCase ,
     private val getUserDataUseCase : GetLoggedUserData,
-    private val updateUserDataUseCase: UpdateUserDataUseCase
+    private val updateUserDataUseCase: UpdateUserDataUseCase ,
+    private val updateLoggedUserPassWordUseCase: UpdateLoggedUserPassWordUseCase
 ) : ViewModel() {
 
     val state : MutableStateFlow<AccountStates> = MutableStateFlow(AccountStates())
@@ -34,8 +37,37 @@ class AccountViewModel(
 
             }
             AccountEvents.updateUserDate -> updateUserDate()
+            is AccountEvents.OnCurrentPassWordChange -> {
+                state.value = state.value.copy(currentPassWord = events.currentPassWord)
+            }
+            is AccountEvents.OnPassWordChange -> {
+                state.value = state.value.copy(passWord = events.passWord)
+            }
+            is AccountEvents.OnRePassWordChange -> {
+                state.value = state.value.copy(rePassWord = events.rePassWord)
+            }
+            AccountEvents.updateUserPassWord -> updateUserPassWord()
         }
 
+    }
+
+    private fun updateUserPassWord() {
+      viewModelScope.launch {
+          state.value = state.value.copy(UpdateUserPassWorApi = Resources.Loading)
+          val request = updateLoggedUserPassWordUseCase.call(
+              state.value.currentPassWord?:"",
+              state.value.passWord?:"",
+              state.value.rePassWord?:""
+          )
+          if (request.isSuccess){
+              println(request.getOrNull())
+              state.value = state.value.copy(UpdateUserPassWorApi = Resources.Success(request.getOrNull()))
+          }else{
+              println(request.getOrNull())
+              state.value = state.value.copy(UpdateUserPassWorApi = Resources.Error(Throwable(request.exceptionOrNull())))
+
+          }
+      }
     }
 
     private fun updateUserDate() {

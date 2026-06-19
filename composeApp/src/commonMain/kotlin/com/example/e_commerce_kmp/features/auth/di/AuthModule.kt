@@ -9,6 +9,7 @@ import com.example.e_commerce_kmp.features.auth.domain.usecases.LogOutUseCase
 import com.example.e_commerce_kmp.features.auth.domain.usecases.LoginUseCase
 import com.example.e_commerce_kmp.features.auth.domain.usecases.ResetPassWordUseCase
 import com.example.e_commerce_kmp.features.auth.domain.usecases.SignUpUseCase
+import com.example.e_commerce_kmp.features.auth.domain.usecases.UpdateLoggedUserPassWordUseCase
 import com.example.e_commerce_kmp.features.auth.domain.usecases.UpdateUserDataUseCase
 import com.example.e_commerce_kmp.features.auth.domain.usecases.VerifyCodeUseCase
 import com.example.e_commerce_kmp.features.auth.ui.screens.forgetpassword.ForgetPassWordViewModel
@@ -19,6 +20,7 @@ import com.example.e_commerce_kmp.features.auth.ui.screens.register.RegisterView
 import com.example.e_commerce_kmp.features.commerce.ui.tabs.account.AccountViewModel
 import com.example.e_commerce_kmp.features.commerce.usecases.GetLoggedUserData
 import com.example.e_commerce_kmp.features.network.createHttpClient
+import com.example.e_commerce_kmp.features.network.request.auth.UpdateLoggedUserPassWordRequest
 import io.ktor.client.HttpClient
 import org.koin.core.module.dsl.viewModel
 import org.koin.dsl.module
@@ -58,11 +60,14 @@ factory {
     factory {
         UpdateUserDataUseCase(get ())
     }
+    factory {
+        UpdateLoggedUserPassWordUseCase(get())
+    }
 
     viewModel { LoginViewModel(get()) }
     viewModel { RegisterViewModel(get()) }
     viewModel { ForgetPassWordViewModel(get()) }
     viewModel { VerifyCodeViewModel(get()) }
     viewModel { NewPassWordViewModel(get()) }
-    viewModel { AccountViewModel(get () ,get(),get())}
+    viewModel { AccountViewModel(get () ,get(),get(),get())}
 }

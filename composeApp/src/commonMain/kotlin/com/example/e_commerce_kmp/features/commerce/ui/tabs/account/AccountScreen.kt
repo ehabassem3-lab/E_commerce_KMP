@@ -187,8 +187,10 @@ fun AccountScreen(navController: NavController,
                 .border(width = 1.dp , shape = RoundedCornerShape(20.dp), color = DarkPrimary)
                 .padding(horizontal = 10.dp),
                 verticalAlignment = Alignment.CenterVertically ,
+
                 horizontalArrangement = Arrangement.SpaceBetween
                 ,
+
 
                 )
             {

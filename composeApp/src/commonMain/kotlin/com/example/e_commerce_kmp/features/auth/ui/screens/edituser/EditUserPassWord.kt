@@ -13,10 +13,17 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.statusBarsPadding
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Snackbar
+import androidx.compose.material3.SnackbarHost
+import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -25,18 +32,43 @@ import androidx.navigation.NavController
 import com.example.e_commerce_kmp.Res
 import com.example.e_commerce_kmp.features.auth.ui.screens.forgetpassword.ForgetPassWordEvents
 import com.example.e_commerce_kmp.features.auth.ui.utilies.Resources
+import com.example.e_commerce_kmp.features.commerce.ui.tabs.account.AccountEvents
+import com.example.e_commerce_kmp.features.commerce.ui.tabs.account.AccountViewModel
 import com.example.e_commerce_kmp.features.routes.AppRoutes
 import com.example.e_commerce_kmp.features.thenes.AppTypography
 import com.example.e_commerce_kmp.features.thenes.Primary
 import com.example.e_commerce_kmp.features.utilities.CustomButton
 import com.example.e_commerce_kmp.features.utilities.CustomTextField
 import com.example.e_commerce_kmp.ic_arrow_back
+import com.example.e_commerce_kmp.ic_closed_eye
 import com.example.e_commerce_kmp.ic_route_logo
+import kotlinx.coroutines.delay
 import org.jetbrains.compose.resources.painterResource
+import org.koin.compose.koinInject
 
 @Composable
 fun EditUserPassWordView(navController: NavController){
 
+    val viewModel = koinInject<AccountViewModel>()
+    val state  =viewModel.state.collectAsState().value
+    val snackbarHostState = remember { SnackbarHostState() }
+    LaunchedEffect(state.UpdateUserPassWorApi){
+        when(state.UpdateUserPassWorApi){
+            is Resources.Error -> {
+                snackbarHostState.showSnackbar("SomeThingWentWrong")
+            }
+            Resources.Loading -> {}
+            is Resources.Success<*> -> {
+                snackbarHostState.showSnackbar("SomeThingWentWrong")
+                delay(1000)
+                navController.navigate(AppRoutes.MainScreen)
+
+            }
+            Resources.idle -> {}
+            null -> {}
+        }
+
+    }
 
     Scaffold (
 
@@ -64,6 +96,19 @@ fun EditUserPassWordView(navController: NavController){
                         }
                 )
             }
+        },
+        snackbarHost = {
+            SnackbarHost(
+                hostState =  snackbarHostState ,
+
+                ){
+                Snackbar(
+                    snackbarData = it ,
+                    containerColor = Color.White ,
+                    contentColor = Primary ,
+                    shape = RoundedCornerShape(16.dp)
+                )
+            }
         }
     ){ innerPadding->
         Column (
@@ -85,12 +130,16 @@ fun EditUserPassWordView(navController: NavController){
             Spacer(modifier = Modifier.size(20.dp))
             CustomTextField(
                 hintText =  "enter the old password " ,
-                text ="",
+                text = state.currentPassWord?:"",
                 onValueChange = {
+                    viewModel.doAction(AccountEvents.OnCurrentPassWordChange(it))
                 } ,
                 width = 420.dp,
                 isSearchBar = false,
-                hidePassword = null
+                hidePassword = painterResource(Res.drawable.ic_closed_eye),
+                isPassword = true ,
+
+
             )
             Spacer(modifier = Modifier.size(20.dp))
             Text(
@@ -100,12 +149,15 @@ fun EditUserPassWordView(navController: NavController){
             Spacer(modifier = Modifier.size(20.dp))
             CustomTextField(
                 hintText =  "enter the new password " ,
-                text ="",
+                text = state.passWord?:"",
                 onValueChange = {
+                    viewModel.doAction(AccountEvents.OnPassWordChange(it))
                 } ,
                 width = 420.dp,
                 isSearchBar = false,
-                hidePassword = null
+                hidePassword = painterResource(Res.drawable.ic_closed_eye) ,
+                isPassword = true
+
             )
             Spacer(modifier = Modifier.size(20.dp))
             Text(
@@ -115,21 +167,23 @@ fun EditUserPassWordView(navController: NavController){
             Spacer(modifier = Modifier.size(20.dp))
             CustomTextField(
                 hintText =  "enter the new password " ,
-                text ="",
+                text = state.rePassWord?:"",
                 onValueChange = {
+                    viewModel.doAction(AccountEvents.OnRePassWordChange(it))
                 } ,
                 width = 420.dp,
                 isSearchBar = false,
-                hidePassword = null
+                hidePassword = painterResource(Res.drawable.ic_closed_eye),
+                isPassword = true
             )
             Spacer(modifier = Modifier.size(40.dp))
 
             CustomButton(
                 text = "Update PassWord" ,
                 onClick = {
-
+                  viewModel.doAction(AccountEvents.updateUserPassWord)
                 } ,
-                isLoading = false
+                isLoading = state.UpdateUserPassWorApi is Resources.Loading
             )
 
 

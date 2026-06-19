@@ -139,4 +139,20 @@ class AuthRepositoryImpl( var authRemoteDateSource: AuthRemoteDateSource , val d
         }
     }
 
+    override suspend fun updateUserPassWord(
+        currentPassword: String,
+        password: String,
+        rePassword: String
+    ): Result<Unit> {
+        val request = authRemoteDateSource.updateUserPassWord(currentPassword,password,rePassword)
+        return     if (request.isSuccess){
+            val response = request.getOrNull()
+            dataStore.edit { preferences -> preferences[DataStoreKeys.USER_Password] = password }
+           println(response)
+               Result.success(Unit)
+        }else{
+                Result.failure(Throwable(request.exceptionOrNull()))
+        }
+    }
+
 }

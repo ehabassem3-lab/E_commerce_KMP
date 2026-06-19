@@ -5,11 +5,13 @@ import com.example.e_commerce_kmp.features.network.request.auth.ForgetPassWordRe
 import com.example.e_commerce_kmp.features.network.request.auth.LoginRequest
 import com.example.e_commerce_kmp.features.network.request.auth.ResetPassWordRequest
 import com.example.e_commerce_kmp.features.network.request.auth.SignUpRequest
+import com.example.e_commerce_kmp.features.network.request.auth.UpdateLoggedUserPassWordRequest
 import com.example.e_commerce_kmp.features.network.request.auth.UpdateUserDataRequest
 import com.example.e_commerce_kmp.features.network.request.auth.VerifyCodeRequest
 import com.example.e_commerce_kmp.features.network.response.auth.AuthResponse
 import io.ktor.client.HttpClient
 import io.ktor.client.call.body
+import io.ktor.client.plugins.isSaved
 import io.ktor.client.request.post
 import io.ktor.client.request.put
 import io.ktor.client.request.setBody
@@ -100,6 +102,29 @@ class AuthRemoteDateSourceImpl( private val httpClient: HttpClient) : AuthRemote
     }catch (e : Throwable){
         return Result.failure(e)
     }
+    }
+
+    override suspend fun updateUserPassWord(
+        currentPassword: String,
+        password: String,
+        rePassword: String
+    ): Result<Unit> {
+    return   try {
+        val request = httpClient.put ("v1/users/changeMyPassword"){ setBody(UpdateLoggedUserPassWordRequest(currentPassword,password,rePassword)) }
+             val response = request.body<Unit>()
+        if (request.status.isSuccess()){
+            println(request)
+            println(response)
+            Result.success(response)
+        }else{
+            Result.failure(Throwable(request.body<Throwable>().message))
+
+        }
+       }catch (e : Throwable){
+
+        Result.failure(e)
+       }
+
     }
 
     override suspend fun updateUserData(
